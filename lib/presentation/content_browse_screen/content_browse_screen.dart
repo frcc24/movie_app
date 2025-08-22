@@ -34,7 +34,6 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen>
   List<Map<String, dynamic>> _allContent = [];
   List<Map<String, dynamic>> _filteredContent = [];
 
-  // final List<String> _tabs = ['Navegar', 'Detalhes', 'Gêneros'];
   final List<String> _genres = [
     'Todos',
     'Ação',
@@ -61,7 +60,6 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen>
   @override
   void initState() {
     super.initState();
-    // _tabController = TabController(length: _tabs.length, vsync: this);
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
     _loadInitialContent();

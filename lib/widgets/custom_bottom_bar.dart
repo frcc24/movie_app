@@ -86,7 +86,6 @@ class _CustomBottomBarState extends State<CustomBottomBar>
   }
 
   Widget _buildPrimaryBottomBar(BuildContext context) {
-    final theme = Theme.of(context);
 
     return Container(
       decoration: BoxDecoration(

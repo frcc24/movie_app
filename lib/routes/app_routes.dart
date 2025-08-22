@@ -4,7 +4,6 @@ import '../presentation/genre_filter_screen/genre_filter_screen.dart';
 import '../presentation/content_detail_screen/content_detail_screen.dart';
 
 class AppRoutes {
-  // TODO: Add your routes here
   static const String initial = '/';
   static const String contentBrowse = '/content-browse-screen';
   static const String genreFilter = '/genre-filter-screen';
@@ -15,6 +14,5 @@ class AppRoutes {
     contentBrowse: (context) => const ContentBrowseScreen(),
     genreFilter: (context) => const GenreFilterScreen(),
     contentDetail: (context) => const ContentDetailScreen(),
-    // TODO: Add your other routes here
   };
 }
