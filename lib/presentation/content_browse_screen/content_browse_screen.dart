@@ -6,7 +6,6 @@ import '../../core/app_export.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_bottom_bar.dart';
-import '../../widgets/custom_tab_bar.dart';
 import './widgets/content_card_widget.dart';
 import './widgets/content_skeleton_widget.dart';
 import './widgets/empty_state_widget.dart';
@@ -224,26 +223,10 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen>
     return Scaffold(
       backgroundColor: AppTheme.darkTheme.scaffoldBackgroundColor,
       appBar: const CustomAppBar(
-        title: 'CineStream',
-        // variant: CustomAppBarVariant.search,
-        // searchHint: 'Buscar filmes e séries...',
+        title: 'CineList',
       ),
       body: Column(
         children: [
-          // CustomTabBar(
-          //   tabs: _tabs,
-          //   variant: CustomTabBarVariant.underline,
-          //   onTap: (index) {
-          //     switch (index) {
-          //       case 1:
-          //         Navigator.pushNamed(context, '/content-detail-screen');
-          //         break;
-          //       case 2:
-          //         Navigator.pushNamed(context, '/genre-filter-screen');
-          //         break;
-          //     }
-          //   },
-          // ),
           GenreFilterWidget(
             selectedGenre: _selectedGenre,
             genres: _genres,
