@@ -44,12 +44,6 @@ class _CustomBottomBarState extends State<CustomBottomBar>
       route: '/content-browse-screen',
     ),
     _BottomBarItem(
-      icon: Icons.movie_outlined,
-      activeIcon: Icons.movie,
-      label: 'Details',
-      route: '/content-detail-screen',
-    ),
-    _BottomBarItem(
       icon: Icons.category_outlined,
       activeIcon: Icons.category,
       label: 'Genres',

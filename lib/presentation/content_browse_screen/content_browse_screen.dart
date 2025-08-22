@@ -35,7 +35,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen>
   List<Map<String, dynamic>> _allContent = [];
   List<Map<String, dynamic>> _filteredContent = [];
 
-  final List<String> _tabs = ['Navegar', 'Detalhes', 'Gêneros'];
+  // final List<String> _tabs = ['Navegar', 'Detalhes', 'Gêneros'];
   final List<String> _genres = [
     'Todos',
     'Ação',
@@ -62,7 +62,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: _tabs.length, vsync: this);
+    // _tabController = TabController(length: _tabs.length, vsync: this);
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
     _loadInitialContent();
@@ -225,25 +225,25 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen>
       backgroundColor: AppTheme.darkTheme.scaffoldBackgroundColor,
       appBar: const CustomAppBar(
         title: 'CineStream',
-        variant: CustomAppBarVariant.search,
-        searchHint: 'Buscar filmes e séries...',
+        // variant: CustomAppBarVariant.search,
+        // searchHint: 'Buscar filmes e séries...',
       ),
       body: Column(
         children: [
-          CustomTabBar(
-            tabs: _tabs,
-            variant: CustomTabBarVariant.underline,
-            onTap: (index) {
-              switch (index) {
-                case 1:
-                  Navigator.pushNamed(context, '/content-detail-screen');
-                  break;
-                case 2:
-                  Navigator.pushNamed(context, '/genre-filter-screen');
-                  break;
-              }
-            },
-          ),
+          // CustomTabBar(
+          //   tabs: _tabs,
+          //   variant: CustomTabBarVariant.underline,
+          //   onTap: (index) {
+          //     switch (index) {
+          //       case 1:
+          //         Navigator.pushNamed(context, '/content-detail-screen');
+          //         break;
+          //       case 2:
+          //         Navigator.pushNamed(context, '/genre-filter-screen');
+          //         break;
+          //     }
+          //   },
+          // ),
           GenreFilterWidget(
             selectedGenre: _selectedGenre,
             genres: _genres,
