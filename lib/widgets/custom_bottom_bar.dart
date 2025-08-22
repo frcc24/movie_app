@@ -226,7 +226,7 @@ class _CustomBottomBarState extends State<CustomBottomBar>
           return Transform.scale(
             scale: isSelected ? _scaleAnimation.value : 1.0,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
               decoration: BoxDecoration(
                 color: isSelected
                     ? selectedColor.withValues(alpha: 0.1)
