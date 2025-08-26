@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/app_export.dart';
+import '../../../core/model/actor.dart';
 
 class CastSectionWidget extends StatelessWidget {
-  final List<Map<String, dynamic>> castMembers;
+  final List<Actor> castMembers;
 
   const CastSectionWidget({
     super.key,
@@ -19,7 +20,6 @@ class CastSectionWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Section title
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 4.w),
             child: Text(
@@ -33,7 +33,6 @@ class CastSectionWidget extends StatelessWidget {
 
           SizedBox(height: 2.h),
 
-          // Cast list
           SizedBox(
             height: 20.h,
             child: ListView.builder(
@@ -47,7 +46,6 @@ class CastSectionWidget extends StatelessWidget {
                   margin: EdgeInsets.only(right: 3.w),
                   child: Column(
                     children: [
-                      // Actor photo
                       Container(
                         width: 20.w,
                         height: 12.h,
@@ -60,8 +58,8 @@ class CastSectionWidget extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: CustomImageWidget(
-                            imageUrl: castMember['photoUrl'] ??
-                                'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3',
+                            imageUrl:
+                                castMember.photo ?? 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3',
                             width: 20.w,
                             height: 12.h,
                             fit: BoxFit.cover,
@@ -71,11 +69,9 @@ class CastSectionWidget extends StatelessWidget {
 
                       SizedBox(height: 1.h),
 
-                      // Actor name
                       Text(
-                        castMember['name'] ?? 'Nome não disponível',
-                        style:
-                            AppTheme.darkTheme.textTheme.bodyMedium?.copyWith(
+                        castMember.name,
+                        style: AppTheme.darkTheme.textTheme.bodyMedium?.copyWith(
                           color: AppTheme.contentWhite,
                           fontWeight: FontWeight.w500,
                         ),
@@ -86,9 +82,8 @@ class CastSectionWidget extends StatelessWidget {
 
                       SizedBox(height: 0.5.h),
 
-                      // Character name
                       Text(
-                        castMember['character'] ?? 'Personagem',
+                        castMember.role,
                         style: AppTheme.darkTheme.textTheme.bodySmall?.copyWith(
                           color: AppTheme.mutedText,
                         ),
