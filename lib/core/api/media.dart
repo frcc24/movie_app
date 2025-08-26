@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'endpoints.dart';
 import '../enums/media_type.dart';
 import '../model/actor.dart';
-import '../model/user_ratings.dart';
 import '../model/medium.dart';
 
 Future<List<Medium>> getMedia({
@@ -43,12 +42,11 @@ Future<List<Actor>> getMediumCast(int id) async {
   }
 }
 
-Future<UserRatings> getMediumRatings(int id) async {
+Future<Map<String, dynamic>> getMediumRatings(int id) async {
   final response = await Dio().get(Endpoints.ratings(id: id));
 
   if (response.statusCode == 200) {
-    Map<String, dynamic> jsonResponse = json.decode(response.data);
-    return UserRatings.fromJson(jsonResponse);
+    return response.data;
   } else {
     throw Exception('Failed to load movie ratings');
   }

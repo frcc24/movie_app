@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:movies__series_app/core/model/actor.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../core/model/actor.dart';
 import '../../core/model/medium.dart';
 import '../../core/app_export.dart';
 import './widgets/action_buttons_widget.dart';
@@ -23,9 +23,9 @@ class ContentDetailScreen extends StatefulWidget {
 class _ContentDetailScreenState extends State<ContentDetailScreen> {
   bool _isLoading = true;
   List<Actor>? _cast;
+  Map<String, dynamic>? _userRatings;
   List<Map<String, dynamic>>? _streamingPlatforms;
 
-  Map<String, dynamic>? _contentData;
   String? _selectedGenre;
 
   final Map<String, dynamic> _mockContentData = {
@@ -100,12 +100,27 @@ class _ContentDetailScreenState extends State<ContentDetailScreen> {
 
   Future<void> _loadContentData() async {
     final cast = await getMediumCast(widget.medium.id);
+    final ratings = await getMediumRatings(widget.medium.id);
 
     if (!mounted) return;
 
     setState(() {
-      _contentData = _mockContentData;
       _cast = cast;
+      _userRatings = ratings;
+      _streamingPlatforms = [
+        {
+          "name": "Netflix",
+          "type": "Streaming",
+          "logoUrl": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3",
+          "deepLink": "netflix://title/80057281"
+        },
+        {
+          "name": "Amazon Prime",
+          "type": "Aluguel",
+          "logoUrl": "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3",
+          "deepLink": "primevideo://detail/0GZQT3YWHGWCKV"
+        }
+      ];
       _isLoading = false;
     });
   }
@@ -193,10 +208,6 @@ class _ContentDetailScreenState extends State<ContentDetailScreen> {
   }
 
   Widget _buildContentState() {
-    if (_contentData == null) {
-      return _buildErrorState();
-    }
-
     return CustomScrollView(
       slivers: [
         SliverAppBar(
@@ -213,7 +224,7 @@ class _ContentDetailScreenState extends State<ContentDetailScreen> {
             onPressed: () => Navigator.pop(context),
           ),
           title: Text(
-            _contentData!['title'] ?? 'Detalhes',
+            widget.medium.title,
             style: AppTheme.darkTheme.textTheme.titleMedium?.copyWith(
               color: AppTheme.contentWhite,
               fontWeight: FontWeight.w600,
@@ -250,10 +261,10 @@ class _ContentDetailScreenState extends State<ContentDetailScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 HeroSectionWidget(
-                  contentData: _contentData!,
+                  contentData: widget.medium,
                 ),
                 GenreChipsWidget(
-                  genres: (_contentData!['genres'] as List?)?.cast<String>() ?? [],
+                  genres: widget.medium.genres,
                   selectedGenre: _selectedGenre,
                   onGenreSelected: (genre) {
                     setState(() {
@@ -262,7 +273,7 @@ class _ContentDetailScreenState extends State<ContentDetailScreen> {
                   },
                 ),
                 SynopsisSectionWidget(
-                  synopsis: _contentData!['synopsis'] ?? 'Sinopse não disponível.',
+                  synopsis: widget.medium.synopsis,
                 ),
                 SizedBox(height: 2.h),
                 CastSectionWidget(
@@ -270,11 +281,11 @@ class _ContentDetailScreenState extends State<ContentDetailScreen> {
                 ),
                 SizedBox(height: 2.h),
                 StreamingPlatformsWidget(
-                  platforms: (_contentData!['streamingPlatforms'] as List?)?.cast<Map<String, dynamic>>() ?? [],
+                  platforms: _streamingPlatforms ?? [],
                 ),
                 SizedBox(height: 2.h),
                 UserRatingsWidget(
-                  ratingsData: _contentData!['userRatings'] ?? {},
+                  ratingsData: _userRatings ?? {},
                 ),
                 SizedBox(height: 2.h),
                 ActionButtonsWidget(
