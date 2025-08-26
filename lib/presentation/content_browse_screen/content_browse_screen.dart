@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:movies__series_app/core/model/movie.dart';
+import 'package:movies__series_app/core/enums/media_type.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/app_export.dart';
+import '../../core/model/medium.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_bottom_bar.dart';
@@ -186,8 +187,9 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
     Navigator.pushNamed(
       context,
       '/content-detail-screen',
-      arguments: Movie(
+      arguments: Medium(
         id: 1,
+        type: MediaType.movie,
         title: 'Vingadores: Ultimato',
         genres: ['ação', 'aventura'],
         synopsis:

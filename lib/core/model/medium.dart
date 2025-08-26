@@ -1,5 +1,8 @@
-class Movie {
+import '../enums/media_type.dart';
+
+class Medium {
   final int id;
+  final MediaType type;
   final String title;
   final List<String> genres;
   final String synopsis;
@@ -8,9 +11,12 @@ class Movie {
   final String? poster;
   final int year;
   final String duration;
+  final String? episodes;
+  final String? seasons;
 
-  Movie({
+  Medium({
     required this.id,
+    required this.type,
     required this.title,
     required this.genres,
     required this.synopsis,
@@ -19,11 +25,17 @@ class Movie {
     this.poster,
     required this.year,
     required this.duration,
+    this.episodes,
+    this.seasons,
   });
 
-  factory Movie.fromJson(Map<String, dynamic> json) {
-    return Movie(
+  factory Medium.fromJson(Map<String, dynamic> json) {
+    return Medium(
       id: json['id'],
+      type: MediaType.values.firstWhere(
+        (type) => type.name.toLowerCase() == json['type'].toString().toLowerCase(),
+        orElse: () => MediaType.movie,
+      ),
       title: json['title'],
       genres: List<String>.from(json['genres']),
       synopsis: json['synopsis'],
@@ -32,6 +44,8 @@ class Movie {
       poster: json['poster'],
       year: json['year'],
       duration: json['duration'],
+      episodes: json['episodes'],
+      seasons: json['seasons'],
     );
   }
 }

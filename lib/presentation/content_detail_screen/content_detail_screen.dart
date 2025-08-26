@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movies__series_app/core/model/actor.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../core/model/movie.dart';
+import '../../core/model/medium.dart';
 import '../../core/app_export.dart';
 import './widgets/action_buttons_widget.dart';
 import './widgets/cast_section_widget.dart';
@@ -13,8 +13,8 @@ import './widgets/synopsis_section_widget.dart';
 import './widgets/user_ratings_widget.dart';
 
 class ContentDetailScreen extends StatefulWidget {
-  final Movie movie;
-  const ContentDetailScreen({super.key, required this.movie});
+  final Medium medium;
+  const ContentDetailScreen({super.key, required this.medium});
 
   @override
   State<ContentDetailScreen> createState() => _ContentDetailScreenState();
@@ -99,7 +99,7 @@ class _ContentDetailScreenState extends State<ContentDetailScreen> {
   }
 
   Future<void> _loadContentData() async {
-    final cast = await getMovieCast(widget.movie.id);
+    final cast = await getMediumCast(widget.medium.id);
 
     if (!mounted) return;
 
