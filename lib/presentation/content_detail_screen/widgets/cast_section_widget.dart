@@ -1,19 +1,72 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/app_export.dart';
 import '../../../core/model/actor.dart';
 
-class CastSectionWidget extends StatelessWidget {
-  final List<Actor> castMembers;
+class CastSectionWidget extends StatefulWidget {
+  final int mediumId;
+  const CastSectionWidget({super.key, required this.mediumId});
 
-  const CastSectionWidget({
-    super.key,
-    required this.castMembers,
-  });
+  @override
+  State<CastSectionWidget> createState() => _CastSectionWidgetState();
+}
+
+class _CastSectionWidgetState extends State<CastSectionWidget> {
+  List<Actor>? _cast;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCast().then((cast) {
+      if (!mounted) return;
+      setState(() {
+        _cast = cast;
+        _isLoading = false;
+      });
+    });
+  }
+
+  Future<List<Actor>?> _loadCast() async {
+    try {
+      return await getMediumCast(widget.mediumId);
+    } catch (e) {
+      if (mounted) {
+        Fluttertoast.showToast(
+          msg: 'Erro ao carregar elenco: $e',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: AppTheme.darkTheme.colorScheme.surface,
+          textColor: AppTheme.contentWhite,
+        );
+      }
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final castHeight = 20.h;
+    final titleHeight = 3.h;
+    final spacing = 2.h;
+
+    final hasError = !_isLoading && (_cast == null);
+    if (hasError) return const SizedBox.shrink();
+    
+    if (_isLoading)
+      return Container(
+        width: double.infinity,
+        height: castHeight + titleHeight + spacing,
+        color: AppTheme.secondaryDark.withValues(alpha: 0.3),
+        child: Center(
+          child: CircularProgressIndicator(
+            color: AppTheme.accentColor,
+          ),
+        ),
+      );
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(vertical: 2.h),
@@ -30,17 +83,15 @@ class CastSectionWidget extends StatelessWidget {
               ),
             ),
           ),
-
           SizedBox(height: 2.h),
-
           SizedBox(
-            height: 20.h,
+            height: castHeight,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.symmetric(horizontal: 4.w),
-              itemCount: castMembers.length,
+              itemCount: _cast!.length,
               itemBuilder: (context, index) {
-                final castMember = castMembers[index];
+                final castMember = _cast![index];
                 return Container(
                   width: 25.w,
                   margin: EdgeInsets.only(right: 3.w),
@@ -66,9 +117,7 @@ class CastSectionWidget extends StatelessWidget {
                           ),
                         ),
                       ),
-
                       SizedBox(height: 1.h),
-
                       Text(
                         castMember.name,
                         style: AppTheme.darkTheme.textTheme.bodyMedium?.copyWith(
@@ -79,9 +128,7 @@ class CastSectionWidget extends StatelessWidget {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-
                       SizedBox(height: 0.5.h),
-
                       Text(
                         castMember.role,
                         style: AppTheme.darkTheme.textTheme.bodySmall?.copyWith(
