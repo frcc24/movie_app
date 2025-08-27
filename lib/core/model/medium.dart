@@ -8,12 +8,12 @@ class Medium {
   final List<String> genres;
   final String synopsis;
   final double rating;
-  // final List<StreamingPlatform> streamingPlatform;
+  // final List<StreamingPlatform> streamingPlatforms;
   final String? poster;
   final int year;
   final String duration;
-  final String? episodes;
-  final String? seasons;
+  final int? episodes;
+  final int? seasons;
 
   Medium({
     required this.id,
@@ -22,7 +22,7 @@ class Medium {
     required this.genres,
     required this.synopsis,
     required this.rating,
-    // required this.streamingPlatform,
+    // required this.streamingPlatforms,
     this.poster,
     required this.year,
     required this.duration,
@@ -38,10 +38,10 @@ class Medium {
         orElse: () => MediaType.movie,
       ),
       title: json['title'],
-      genres: List<String>.from(json['genres']),
+      genres: List<String>.from(json['genre']),
       synopsis: json['synopsis'],
       rating: (json['rating'] as num).toDouble(),
-      // streamingPlatform: (json['streamingPlatform'] as List)
+      // streamingPlatforms: (json['streamingPlatforms'] as List)
       //     .map(
       //       (platform) => StreamingPlatform.fromJson(platform),
       //     )
