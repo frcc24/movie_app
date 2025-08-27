@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../core/model/medium.dart';
 import '../presentation/content_browse_screen/content_browse_screen.dart';
 import '../presentation/genre_filter_screen/genre_filter_screen.dart';
 import '../presentation/content_detail_screen/content_detail_screen.dart';
@@ -13,6 +15,9 @@ class AppRoutes {
     initial: (context) => const ContentBrowseScreen(),
     contentBrowse: (context) => const ContentBrowseScreen(),
     genreFilter: (context) => const GenreFilterScreen(),
-    contentDetail: (context) => const ContentDetailScreen(),
+    contentDetail: (context) {
+      final medium = ModalRoute.of(context)!.settings.arguments as Medium;
+      return ContentDetailScreen(medium: medium);
+    },
   };
 }

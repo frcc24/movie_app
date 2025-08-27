@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:movies__series_app/core/enums/media_type.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/app_export.dart';
+import '../../core/model/medium.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_bottom_bar.dart';
@@ -19,8 +21,7 @@ class ContentBrowseScreen extends StatefulWidget {
   State<ContentBrowseScreen> createState() => _ContentBrowseScreenState();
 }
 
-class _ContentBrowseScreenState extends State<ContentBrowseScreen>
-    with TickerProviderStateMixin {
+class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerProviderStateMixin {
   late TabController _tabController;
   late ScrollController _scrollController;
 
@@ -73,8 +74,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen>
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
       _loadMoreContent();
     }
   }
@@ -140,21 +140,15 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen>
 
       return {
         "id": contentIndex + 1,
-        "title": isMovie
-            ? _movieTitles[contentIndex % _movieTitles.length]
-            : _serieTitles[contentIndex % _serieTitles.length],
+        "title": isMovie ? _movieTitles[contentIndex % _movieTitles.length] : _serieTitles[contentIndex % _serieTitles.length],
         "type": isMovie ? "Filme" : "Série",
         "genres": _getRandomGenres(),
         "rating": (6.0 + (contentIndex % 4) * 0.8).clamp(6.0, 9.6),
         "platform": _platforms[contentIndex % _platforms.length],
         "poster": _posterUrls[contentIndex % _posterUrls.length],
-        "synopsis": isMovie
-            ? _movieSynopsis[contentIndex % _movieSynopsis.length]
-            : _serieSynopsis[contentIndex % _serieSynopsis.length],
+        "synopsis": isMovie ? _movieSynopsis[contentIndex % _movieSynopsis.length] : _serieSynopsis[contentIndex % _serieSynopsis.length],
         "year": 2020 + (contentIndex % 4),
-        "duration": isMovie
-            ? "${90 + (contentIndex % 60)} min"
-            : "${1 + (contentIndex % 5)} temporadas",
+        "duration": isMovie ? "${90 + (contentIndex % 60)} min" : "${1 + (contentIndex % 5)} temporadas",
       };
     });
   }
@@ -165,8 +159,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen>
     return availableGenres.take(2 + (DateTime.now().millisecond % 2)).toList();
   }
 
-  List<Map<String, dynamic>> _filterContentByGenre(
-      List<Map<String, dynamic>> content, String genre) {
+  List<Map<String, dynamic>> _filterContentByGenre(List<Map<String, dynamic>> content, String genre) {
     if (genre == 'Todos') return content;
 
     return content.where((item) {
@@ -182,9 +175,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen>
     });
 
     Fluttertoast.showToast(
-      msg: genre == 'Todos'
-          ? 'Mostrando todo o conteúdo'
-          : 'Filtrado por: $genre',
+      msg: genre == 'Todos' ? 'Mostrando todo o conteúdo' : 'Filtrado por: $genre',
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       backgroundColor: AppTheme.darkTheme.colorScheme.surface,
@@ -193,7 +184,21 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen>
   }
 
   void _onContentTap(Map<String, dynamic> content) {
-    Navigator.pushNamed(context, '/content-detail-screen');
+    Navigator.pushNamed(
+      context,
+      '/content-detail-screen',
+      arguments: Medium(
+        id: 1,
+        type: MediaType.movie,
+        title: 'Vingadores: Ultimato',
+        genres: ['ação', 'aventura'],
+        synopsis:
+            'Após os eventos devastadores de "Vingadores: Guerra Infinita", o universo está em ruínas. Com a ajuda dos aliados restantes, os Vingadores se reúnem mais uma vez para desfazer as ações de Thanos e restaurar a ordem no universo.',
+        rating: 5,
+        year: 2020,
+        duration: '120 min',
+      ),
+    );
   }
 
   void _onFavorite(Map<String, dynamic> content) {
@@ -269,8 +274,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen>
   Widget _buildErrorState() {
     return Center(
       child: ErrorRetryWidget(
-        message:
-            'Não foi possível carregar o conteúdo. Verifique sua conexão com a internet.',
+        message: 'Não foi possível carregar o conteúdo. Verifique sua conexão com a internet.',
         onRetry: _loadInitialContent,
       ),
     );
@@ -278,12 +282,9 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen>
 
   Widget _buildEmptyState() {
     return EmptyStateWidget(
-      message: _selectedGenre == 'Todos'
-          ? 'Não há conteúdo disponível no momento.'
-          : 'Não encontramos conteúdo para o gênero "$_selectedGenre".',
+      message: _selectedGenre == 'Todos' ? 'Não há conteúdo disponível no momento.' : 'Não encontramos conteúdo para o gênero "$_selectedGenre".',
       actionText: 'Limpar Filtro',
-      onAction:
-          _selectedGenre != 'Todos' ? () => _onGenreSelected('Todos') : null,
+      onAction: _selectedGenre != 'Todos' ? () => _onGenreSelected('Todos') : null,
     );
   }
 
@@ -372,16 +373,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen>
     'Bridgerton'
   ];
 
-  final List<String> _platforms = [
-    'Netflix',
-    'Amazon Prime',
-    'Disney+',
-    'HBO Max',
-    'Apple TV+',
-    'Paramount+',
-    'Globoplay',
-    'Pluto TV'
-  ];
+  final List<String> _platforms = ['Netflix', 'Amazon Prime', 'Disney+', 'HBO Max', 'Apple TV+', 'Paramount+', 'Globoplay', 'Pluto TV'];
 
   final List<String> _posterUrls = [
     'https://images.unsplash.com/photo-1489599904472-af35ff2c7c3f?w=400&h=600&fit=crop',
