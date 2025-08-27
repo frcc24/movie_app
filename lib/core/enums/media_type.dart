@@ -4,7 +4,7 @@ extension MediaTypeExtension on MediaType {
   String get name {
     switch (this) {
       case MediaType.movie:
-        return 'movies';
+        return 'movie';
       case MediaType.series:
         return 'series';
     }

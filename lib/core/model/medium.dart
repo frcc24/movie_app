@@ -1,4 +1,5 @@
 import '../enums/media_type.dart';
+// import 'streaming_platform.dart';
 
 class Medium {
   final int id;
@@ -7,7 +8,7 @@ class Medium {
   final List<String> genres;
   final String synopsis;
   final double rating;
-  final List<String> streamingPlatform;
+  // final List<StreamingPlatform> streamingPlatform;
   final String? poster;
   final int year;
   final String duration;
@@ -21,7 +22,7 @@ class Medium {
     required this.genres,
     required this.synopsis,
     required this.rating,
-    required this.streamingPlatform,
+    // required this.streamingPlatform,
     this.poster,
     required this.year,
     required this.duration,
@@ -40,7 +41,11 @@ class Medium {
       genres: List<String>.from(json['genres']),
       synopsis: json['synopsis'],
       rating: (json['rating'] as num).toDouble(),
-      streamingPlatform: List<String>.from(json['streamingPlatform']),
+      // streamingPlatform: (json['streamingPlatform'] as List)
+      //     .map(
+      //       (platform) => StreamingPlatform.fromJson(platform),
+      //     )
+      //     .toList(),
       poster: json['poster'],
       year: json['year'],
       duration: json['duration'],

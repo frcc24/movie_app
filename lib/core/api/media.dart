@@ -12,7 +12,7 @@ Future<List<Medium>> getMedia({
   int? rating,
 }) async {
   final response = await Dio().get(
-    Endpoints.medium(),
+    Endpoints.media(),
     queryParameters: {
       if (type != null) 'type': type.name,
       if (genre != null) 'genre': genre,

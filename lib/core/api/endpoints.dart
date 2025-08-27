@@ -1,5 +1,5 @@
 abstract class Endpoints {
-  static const String _baseUrl = 'http://10.20.30.9:3000';
+  static const String _baseUrl = 'http://10.20.30.7:3000';
 
   static String media() => '$_baseUrl/api/media';
 
