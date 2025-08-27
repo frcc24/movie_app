@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/model/actor.dart';
@@ -26,72 +27,6 @@ class _ContentDetailScreenState extends State<ContentDetailScreen> {
   Map<String, dynamic>? _userRatings;
   List<Map<String, dynamic>>? _streamingPlatforms;
 
-  String? _selectedGenre;
-
-  final Map<String, dynamic> _mockContentData = {
-    "id": 1,
-    "title": "Stranger Things",
-    "releaseYear": 2016,
-    "rating": 8.7,
-    "duration": "51 min/ep",
-    "posterUrl": "https://images.unsplash.com/photo-1489599735734-79b4169c4388?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3",
-    "genres": ["Ficção Científica", "Drama", "Terror", "Mistério", "Thriller"],
-    "synopsis":
-        """Quando um garoto desaparece, uma pequena cidade descobre um mistério envolvendo experimentos secretos, forças sobrenaturais aterrorizantes e uma garota muito estranha. Ambientada na década de 1980 em Hawkins, Indiana, a série acompanha um grupo de amigos que se veem no centro de eventos sobrenaturais que ameaçam não apenas suas vidas, mas o destino do mundo. Com elementos nostálgicos dos anos 80, a série combina terror, ficção científica e drama adolescente de forma única e envolvente.""",
-    // "cast": [
-    //   {
-    //     "name": "Millie Bobby Brown",
-    //     "character": "Eleven",
-    //     "photoUrl": "https://images.unsplash.com/photo-1494790108755-2616b612b786?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3"
-    //   },
-    //   {
-    //     "name": "Finn Wolfhard",
-    //     "character": "Mike Wheeler",
-    //     "photoUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3"
-    //   },
-    //   {
-    //     "name": "Gaten Matarazzo",
-    //     "character": "Dustin Henderson",
-    //     "photoUrl": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3"
-    //   },
-    //   {
-    //     "name": "Caleb McLaughlin",
-    //     "character": "Lucas Sinclair",
-    //     "photoUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3"
-    //   },
-    //   {
-    //     "name": "Noah Schnapp",
-    //     "character": "Will Byers",
-    //     "photoUrl": "https://images.unsplash.com/photo-1463453091185-61582044d556?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3"
-    //   }
-    // ],
-    "streamingPlatforms": [
-      {
-        "name": "Netflix",
-        "type": "Streaming",
-        "logoUrl": "https://images.unsplash.com/photo-1611162617474-5b21e879e113?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3",
-        "deepLink": "netflix://title/80057281"
-      },
-      {
-        "name": "Amazon Prime",
-        "type": "Aluguel",
-        "logoUrl": "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3",
-        "deepLink": "primevideo://detail/0GZQT3YWHGWCKV"
-      }
-    ],
-    "userRatings": {
-      "averageRating": 8.7,
-      "totalReviews": 2847,
-      "breakdown": [
-        {"stars": 5, "percentage": 65.2},
-        {"stars": 4, "percentage": 22.8},
-        {"stars": 3, "percentage": 8.5},
-        {"stars": 2, "percentage": 2.1},
-        {"stars": 1, "percentage": 1.4}
-      ]
-    }
-  };
-
   @override
   void initState() {
     super.initState();
@@ -99,8 +34,8 @@ class _ContentDetailScreenState extends State<ContentDetailScreen> {
   }
 
   Future<void> _loadContentData() async {
-    final cast = await getMediumCast(widget.medium.id);
-    final ratings = await getMediumRatings(widget.medium.id);
+    final cast = await _loadCast();
+    final ratings = await _loadRatings();
 
     if (!mounted) return;
 
@@ -123,6 +58,40 @@ class _ContentDetailScreenState extends State<ContentDetailScreen> {
       ];
       _isLoading = false;
     });
+  }
+
+  Future<List<Actor>?> _loadCast() async {
+    try {
+      return await getMediumCast(widget.medium.id);
+    } catch (e) {
+      if (mounted) {
+        Fluttertoast.showToast(
+          msg: 'Erro ao carregar elenco: $e',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: AppTheme.darkTheme.colorScheme.surface,
+          textColor: AppTheme.contentWhite,
+        );
+      }
+      return null;
+    }
+  }
+
+  Future<Map<String, dynamic>?> _loadRatings() async {
+    try {
+      return await getMediumRatings(widget.medium.id);
+    } catch (e) {
+      if (mounted) {
+        Fluttertoast.showToast(
+          msg: 'Erro ao carregar avaliações: $e',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: AppTheme.darkTheme.colorScheme.surface,
+          textColor: AppTheme.contentWhite,
+        );
+      }
+      return null;
+    }
   }
 
   Future<void> _refreshContent() async {
@@ -265,12 +234,6 @@ class _ContentDetailScreenState extends State<ContentDetailScreen> {
                 ),
                 GenreChipsWidget(
                   genres: widget.medium.genres,
-                  selectedGenre: _selectedGenre,
-                  onGenreSelected: (genre) {
-                    setState(() {
-                      _selectedGenre = genre;
-                    });
-                  },
                 ),
                 SynopsisSectionWidget(
                   synopsis: widget.medium.synopsis,
@@ -303,45 +266,6 @@ class _ContentDetailScreenState extends State<ContentDetailScreen> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildErrorState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CustomIconWidget(
-            iconName: 'error_outline',
-            color: AppTheme.mutedText,
-            size: 48,
-          ),
-          SizedBox(height: 2.h),
-          Text(
-            'Erro ao carregar conteúdo',
-            style: AppTheme.darkTheme.textTheme.titleMedium?.copyWith(
-              color: AppTheme.contentWhite,
-            ),
-          ),
-          SizedBox(height: 1.h),
-          Text(
-            'Verifique sua conexão e tente novamente',
-            style: AppTheme.darkTheme.textTheme.bodyMedium?.copyWith(
-              color: AppTheme.mutedText,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 3.h),
-          ElevatedButton(
-            onPressed: _refreshContent,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.accentColor,
-              foregroundColor: AppTheme.contentWhite,
-            ),
-            child: Text('Tentar Novamente'),
-          ),
-        ],
-      ),
     );
   }
 }
