@@ -194,7 +194,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
         genres: ['ação', 'aventura'],
         synopsis:
             'Após os eventos devastadores de "Vingadores: Guerra Infinita", o universo está em ruínas. Com a ajuda dos aliados restantes, os Vingadores se reúnem mais uma vez para desfazer as ações de Thanos e restaurar a ordem no universo.',
-        rating: 8,
+        rating: 5,
         year: 2020,
         duration: '120 min',
       ),
