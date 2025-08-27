@@ -4,8 +4,10 @@ import 'endpoints.dart';
 import '../enums/media_type.dart';
 import '../model/actor.dart';
 import '../model/medium.dart';
+import '../model/page.dart';
 
-Future<List<Medium>> getMedia({
+Future<Page<Medium>> getMediaPage({
+  int page = 1,
   MediaType? type,
   String? genre,
   int? year,
@@ -14,6 +16,7 @@ Future<List<Medium>> getMedia({
   final response = await Dio().get(
     Endpoints.media(),
     queryParameters: {
+      'page': page,
       if (type != null) 'type': type.name,
       if (genre != null) 'genre': genre,
       if (year != null) 'year': year,
@@ -22,8 +25,11 @@ Future<List<Medium>> getMedia({
   );
 
   if (response.statusCode == 200) {
-    List jsonResponse = response.data;
-    return jsonResponse.map((movie) => Medium.fromJson(movie)).toList();
+    final jsonResponse = (response.data as Map<String, dynamic>);
+    return Page<Medium>.fromJson(
+      jsonResponse,
+      (json) => Medium.fromJson(json),
+    );
   } else {
     throw Exception('Failed to load movies');
   }

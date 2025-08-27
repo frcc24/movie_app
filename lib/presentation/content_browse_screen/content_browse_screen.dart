@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:movies__series_app/core/enums/media_type.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/app_export.dart';
 import '../../core/model/medium.dart';
-import '../../theme/app_theme.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_bottom_bar.dart';
 import './widgets/content_card_widget.dart';
@@ -30,10 +28,10 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
   bool _isLoadingMore = false;
   String _selectedGenre = 'Todos';
   int _currentPage = 1;
-  final int _itemsPerPage = 10;
+  late int _totalItems;
 
-  List<Map<String, dynamic>> _allContent = [];
-  List<Map<String, dynamic>> _filteredContent = [];
+  List<Medium> _allContent = [];
+  List<Medium> _filteredContent = [];
 
   final List<String> _genres = [
     'Todos',
@@ -51,11 +49,15 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
     'Fantasia',
     'Mistério',
     'Guerra',
-    'História',
+    'Histórico',
     'Música',
     'Família',
     'Western',
-    'Biografia'
+    'Biografia',
+    'Suspense',
+    'Cyberpunk',
+    'Sobrevivência',
+    'Jovem Adulto'
   ];
 
   @override
@@ -74,7 +76,10 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200 &&
+        !_isLoadingMore &&
+        !_hasError &&
+        _filteredContent.length < _totalItems) {
       _loadMoreContent();
     }
   }
@@ -86,16 +91,25 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
     });
 
     try {
-      await Future.delayed(const Duration(milliseconds: 1500));
+      final contentPage = await getMediaPage();
+      final content = contentPage.data;
+      if (!mounted) return;
 
-      final mockContent = _generateMockContent();
       setState(() {
-        _allContent = mockContent;
-        _filteredContent = _filterContentByGenre(mockContent, _selectedGenre);
+        _allContent = content;
+        _filteredContent = _filterContentByGenre(content, _selectedGenre);
         _isLoading = false;
-        _currentPage = 1;
+        _currentPage = contentPage.pagination.currentPage;
+        _totalItems = contentPage.pagination.totalItems;
       });
     } catch (e) {
+      Fluttertoast.showToast(
+        msg: 'Erro ao carregar mídias: $e',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: AppTheme.darkTheme.colorScheme.surface,
+        textColor: AppTheme.contentWhite,
+      );
       setState(() {
         _isLoading = false;
         _hasError = true;
@@ -111,16 +125,28 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
     });
 
     try {
-      await Future.delayed(const Duration(milliseconds: 800));
+      final newContentPage = await getMediaPage(
+        page: _currentPage + 1,
+        genre: _selectedGenre == 'Todos' ? null : _selectedGenre,
+      );
+      final newContent = newContentPage.data;
 
-      final newContent = _generateMockContent(page: _currentPage + 1);
+      if (!mounted) return;
       setState(() {
         _allContent.addAll(newContent);
         _filteredContent = _filterContentByGenre(_allContent, _selectedGenre);
         _isLoadingMore = false;
         _currentPage++;
+        _totalItems = newContentPage.pagination.totalItems;
       });
     } catch (e) {
+      Fluttertoast.showToast(
+        msg: 'Erro ao carregar mais mídias: $e',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: AppTheme.darkTheme.colorScheme.surface,
+        textColor: AppTheme.contentWhite,
+      );
       setState(() {
         _isLoadingMore = false;
       });
@@ -131,79 +157,71 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
     await _loadInitialContent();
   }
 
-  List<Map<String, dynamic>> _generateMockContent({int page = 1}) {
-    final baseIndex = (page - 1) * _itemsPerPage;
-
-    return List.generate(_itemsPerPage, (index) {
-      final contentIndex = baseIndex + index;
-      final isMovie = contentIndex % 2 == 0;
-
-      return {
-        "id": contentIndex + 1,
-        "title": isMovie ? _movieTitles[contentIndex % _movieTitles.length] : _serieTitles[contentIndex % _serieTitles.length],
-        "type": isMovie ? "Filme" : "Série",
-        "genres": _getRandomGenres(),
-        "rating": (6.0 + (contentIndex % 4) * 0.8).clamp(6.0, 9.6),
-        "platform": _platforms[contentIndex % _platforms.length],
-        "poster": _posterUrls[contentIndex % _posterUrls.length],
-        "synopsis": isMovie ? _movieSynopsis[contentIndex % _movieSynopsis.length] : _serieSynopsis[contentIndex % _serieSynopsis.length],
-        "year": 2020 + (contentIndex % 4),
-        "duration": isMovie ? "${90 + (contentIndex % 60)} min" : "${1 + (contentIndex % 5)} temporadas",
-      };
-    });
-  }
-
-  List<String> _getRandomGenres() {
-    final availableGenres = _genres.where((g) => g != 'Todos').toList();
-    availableGenres.shuffle();
-    return availableGenres.take(2 + (DateTime.now().millisecond % 2)).toList();
-  }
-
-  List<Map<String, dynamic>> _filterContentByGenre(List<Map<String, dynamic>> content, String genre) {
+  List<Medium> _filterContentByGenre(List<Medium> content, String genre) {
     if (genre == 'Todos') return content;
 
     return content.where((item) {
-      final itemGenres = (item['genres'] as List).cast<String>();
-      return itemGenres.contains(genre);
+      final itemGenres = item.genres.map((g) => g.toLowerCase()).toList();
+      return itemGenres.contains(genre.toLowerCase());
     }).toList();
   }
 
-  void _onGenreSelected(String genre) {
+  Future<void> _onGenreSelected(String genre) async {
     setState(() {
-      _selectedGenre = genre;
-      _filteredContent = _filterContentByGenre(_allContent, genre);
+      _currentPage = 1;
+      _isLoading = true;
+      _hasError = false;
     });
+    try {
+      final contentPage = await getMediaPage(genre: genre == 'Todos' ? null : genre);
+      final content = contentPage.data;
 
-    Fluttertoast.showToast(
-      msg: genre == 'Todos' ? 'Mostrando todo o conteúdo' : 'Filtrado por: $genre',
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: AppTheme.darkTheme.colorScheme.surface,
-      textColor: AppTheme.contentWhite,
-    );
+      if (!mounted) return;
+      setState(() {
+        _selectedGenre = genre;
+        _allContent = content;
+        _totalItems = contentPage.pagination.totalItems;
+        _filteredContent = _filterContentByGenre(content, genre);
+      });
+
+      Fluttertoast.showToast(
+        msg: genre == 'Todos' ? 'Mostrando todo o conteúdo' : 'Filtrado por: $genre',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: AppTheme.darkTheme.colorScheme.surface,
+        textColor: AppTheme.contentWhite,
+      );
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: 'Erro ao filtrar por gênero: $e',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: AppTheme.darkTheme.colorScheme.surface,
+        textColor: AppTheme.contentWhite,
+      );
+      setState(() {
+        _hasError = true;
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
-  void _onContentTap(Map<String, dynamic> content) {
+  void _onContentTap(Medium content) {
     Navigator.pushNamed(
       context,
       '/content-detail-screen',
-      arguments: Medium(
-        id: 1,
-        type: MediaType.movie,
-        title: 'Vingadores: Ultimato',
-        genres: ['ação', 'aventura'],
-        synopsis:
-            'Após os eventos devastadores de "Vingadores: Guerra Infinita", o universo está em ruínas. Com a ajuda dos aliados restantes, os Vingadores se reúnem mais uma vez para desfazer as ações de Thanos e restaurar a ordem no universo.',
-        rating: 5,
-        year: 2020,
-        duration: '120 min',
-      ),
+      arguments: content,
     );
   }
 
-  void _onFavorite(Map<String, dynamic> content) {
+  void _onFavorite(Medium content) {
     Fluttertoast.showToast(
-      msg: '${content['title']} adicionado aos favoritos',
+      msg: '${content.title} adicionado aos favoritos',
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       backgroundColor: AppTheme.accentColor,
@@ -211,9 +229,9 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
     );
   }
 
-  void _onShare(Map<String, dynamic> content) {
+  void _onShare(Medium content) {
     Fluttertoast.showToast(
-      msg: 'Compartilhando: ${content['title']}',
+      msg: 'Compartilhando: ${content.title}',
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       backgroundColor: AppTheme.successColor,
@@ -325,82 +343,4 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
       ),
     );
   }
-
-  // Mock data arrays
-  final List<String> _movieTitles = [
-    'Vingadores: Ultimato',
-    'Parasita',
-    'Coringa',
-    'Pantera Negra',
-    'Interestelar',
-    'A Origem',
-    'Pulp Fiction',
-    'O Poderoso Chefão',
-    'Cidade de Deus',
-    'Central do Brasil',
-    'Tropa de Elite',
-    'Carandiru',
-    'O Auto da Compadecida',
-    'Que Horas Ela Volta?',
-    'Aquarius',
-    'Bacurau',
-    'O Som ao Redor',
-    'Kleber Mendonça Filho',
-    'Dona Flor e Seus Dois Maridos',
-    'Gabriela'
-  ];
-
-  final List<String> _serieTitles = [
-    'Stranger Things',
-    'The Crown',
-    'Breaking Bad',
-    'Game of Thrones',
-    'The Office',
-    'Friends',
-    'Narcos',
-    '3%',
-    'La Casa de Papel',
-    'Elite',
-    'Dark',
-    'Mindhunter',
-    'Orange Is the New Black',
-    'House of Cards',
-    'Black Mirror',
-    'The Witcher',
-    'Ozark',
-    'Better Call Saul',
-    'The Mandalorian',
-    'Bridgerton'
-  ];
-
-  final List<String> _platforms = ['Netflix', 'Amazon Prime', 'Disney+', 'HBO Max', 'Apple TV+', 'Paramount+', 'Globoplay', 'Pluto TV'];
-
-  final List<String> _posterUrls = [
-    'https://images.unsplash.com/photo-1489599904472-af35ff2c7c3f?w=400&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?w=400&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1509347528160-9329d33b2588?w=400&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=400&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1478720568477-b0ac8e3b7b5b?w=400&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=400&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1515634928627-2a4e0dae3ddf?w=400&h=600&fit=crop'
-  ];
-
-  final List<String> _movieSynopsis = [
-    'Uma jornada épica que reúne os maiores heróis da Terra em uma batalha decisiva.',
-    'Um thriller psicológico que explora as complexidades da sociedade moderna.',
-    'Uma história de origem sombria que redefine o conceito de vilão.',
-    'Uma aventura espacial que desafia nossa compreensão do tempo e espaço.',
-    'Um drama familiar que retrata a realidade brasileira com sensibilidade.',
-  ];
-
-  final List<String> _serieSynopsis = [
-    'Uma série de mistério sobrenatural ambientada nos anos 80.',
-    'Um drama histórico que retrata a família real britânica.',
-    'A transformação de um professor de química em um criminoso.',
-    'Uma saga épica de poder, traição e dragões em um mundo fantástico.',
-    'Uma comédia sobre o cotidiano de um escritório americano.',
-  ];
 }

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../core/app_export.dart';
+import '../../../core/model/medium.dart';
 
 class ContentCardWidget extends StatelessWidget {
-  final Map<String, dynamic> content;
+  final Medium content;
   final VoidCallback? onTap;
   final VoidCallback? onFavorite;
   final VoidCallback? onShare;
@@ -52,7 +53,7 @@ class ContentCardWidget extends StatelessWidget {
       child: AspectRatio(
         aspectRatio: 16 / 9,
         child: CustomImageWidget(
-          imageUrl: content['poster'] as String? ?? '',
+          imageUrl: content.poster,
           width: double.infinity,
           height: double.infinity,
           fit: BoxFit.cover,
@@ -68,7 +69,7 @@ class ContentCardWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            content['title'] as String? ?? 'Título não disponível',
+            content.title,
             style: AppTheme.darkTheme.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
             ),
@@ -91,7 +92,7 @@ class ContentCardWidget extends StatelessWidget {
   }
 
   Widget _buildGenreTags() {
-    final genres = (content['genres'] as List?)?.cast<String>() ?? [];
+    final genres = content.genres;
 
     return Wrap(
       spacing: 2.w,
@@ -119,9 +120,9 @@ class ContentCardWidget extends StatelessWidget {
   }
 
   Widget _buildRatingStars() {
-    final rating = (content['rating'] as num?)?.toDouble() ?? 0.0;
-    final fullStars = (rating / 2).floor();
-    final hasHalfStar = (rating / 2) - fullStars >= 0.5;
+    final rating = content.rating;
+    final fullStars = rating.floor();
+    final hasHalfStar = rating - fullStars >= 0.5;
 
     return Row(
       children: [
@@ -158,7 +159,7 @@ class ContentCardWidget extends StatelessWidget {
   }
 
   Widget _buildPlatformLogo() {
-    final platform = content['platform'] as String? ?? '';
+    final platform = 'Amazon';
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),

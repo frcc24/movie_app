@@ -31,8 +31,7 @@ class CustomBottomBar extends StatefulWidget {
   State<CustomBottomBar> createState() => _CustomBottomBarState();
 }
 
-class _CustomBottomBarState extends State<CustomBottomBar>
-    with TickerProviderStateMixin {
+class _CustomBottomBarState extends State<CustomBottomBar> with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
 
@@ -40,13 +39,13 @@ class _CustomBottomBarState extends State<CustomBottomBar>
     _BottomBarItem(
       icon: Icons.home_outlined,
       activeIcon: Icons.home,
-      label: 'Browse',
+      label: 'Navegar',
       route: '/content-browse-screen',
     ),
     _BottomBarItem(
       icon: Icons.category_outlined,
       activeIcon: Icons.category,
-      label: 'Genres',
+      label: 'Gêneros',
       route: '/genre-filter-screen',
     ),
   ];
@@ -86,7 +85,6 @@ class _CustomBottomBarState extends State<CustomBottomBar>
   }
 
   Widget _buildPrimaryBottomBar(BuildContext context) {
-
     return Container(
       decoration: BoxDecoration(
         color: widget.backgroundColor ?? const Color(0xFF0F0F23),
@@ -130,8 +128,7 @@ class _CustomBottomBarState extends State<CustomBottomBar>
       child: Container(
         height: 70,
         decoration: BoxDecoration(
-          color: (widget.backgroundColor ?? const Color(0xFF0F0F23))
-              .withValues(alpha: 0.95),
+          color: (widget.backgroundColor ?? const Color(0xFF0F0F23)).withValues(alpha: 0.95),
           borderRadius: BorderRadius.circular(35),
           boxShadow: [
             BoxShadow(
@@ -202,8 +199,7 @@ class _CustomBottomBarState extends State<CustomBottomBar>
     int index,
   ) {
     final selectedColor = widget.selectedItemColor ?? const Color(0xFFE94560);
-    final unselectedColor =
-        widget.unselectedItemColor ?? const Color(0xFF8892B0);
+    final unselectedColor = widget.unselectedItemColor ?? const Color(0xFF8892B0);
 
     return GestureDetector(
       onTapDown: (_) => _animationController.forward(),
@@ -211,7 +207,7 @@ class _CustomBottomBarState extends State<CustomBottomBar>
       onTapCancel: () => _animationController.reverse(),
       onTap: () {
         widget.onTap?.call(index);
-        Navigator.pushNamed(context, item.route);
+        if (!isSelected) Navigator.pushNamed(context, item.route);
       },
       child: AnimatedBuilder(
         animation: _scaleAnimation,
@@ -221,9 +217,7 @@ class _CustomBottomBarState extends State<CustomBottomBar>
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
               decoration: BoxDecoration(
-                color: isSelected
-                    ? selectedColor.withValues(alpha: 0.1)
-                    : Colors.transparent,
+                color: isSelected ? selectedColor.withValues(alpha: 0.1) : Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
@@ -243,8 +237,7 @@ class _CustomBottomBarState extends State<CustomBottomBar>
                     item.label,
                     style: GoogleFonts.inter(
                       fontSize: 12,
-                      fontWeight:
-                          isSelected ? FontWeight.w500 : FontWeight.w400,
+                      fontWeight: isSelected ? FontWeight.w500 : FontWeight.w400,
                       color: isSelected ? selectedColor : unselectedColor,
                     ),
                   ),
@@ -264,8 +257,7 @@ class _CustomBottomBarState extends State<CustomBottomBar>
     int index,
   ) {
     final selectedColor = widget.selectedItemColor ?? const Color(0xFFE94560);
-    final unselectedColor =
-        widget.unselectedItemColor ?? const Color(0xFF8892B0);
+    final unselectedColor = widget.unselectedItemColor ?? const Color(0xFF8892B0);
 
     return GestureDetector(
       onTap: () {
