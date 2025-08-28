@@ -1,26 +1,20 @@
 import 'package:dio/dio.dart';
 
 import 'endpoints.dart';
-import '../enums/media_type.dart';
 import '../model/actor.dart';
+import '../model/filter_data.dart';
 import '../model/medium.dart';
 import '../model/page.dart';
 
 Future<Page<Medium>> getMediaPage({
   int page = 1,
-  MediaType? type,
-  List<String>? genre,
-  int? year,
-  int? rating,
+  FilterData? filterData,
 }) async {
   final response = await Dio().get(
     Endpoints.media(),
     queryParameters: {
       'page': page,
-      if (type != null) 'type': type.name,
-      if (genre != null && genre.isNotEmpty) ...genre.asMap().map((_, value) => MapEntry('genre', value)),
-      if (year != null) 'year': year,
-      if (rating != null) 'rating': rating,
+      if (filterData != null) ...filterData.toQueryParams(),
     },
   );
 

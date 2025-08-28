@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/app_export.dart';
+import '../../core/model/filter_data.dart';
 import '../../core/model/medium.dart';
 import '../../widgets/custom_app_bar.dart';
 import '../../widgets/custom_bottom_bar.dart';
@@ -13,7 +14,8 @@ import './widgets/error_retry_widget.dart';
 import './widgets/genre_filter_widget.dart';
 
 class ContentBrowseScreen extends StatefulWidget {
-  const ContentBrowseScreen({super.key});
+  final FilterData? initialFilter;
+  const ContentBrowseScreen({super.key, this.initialFilter});
 
   @override
   State<ContentBrowseScreen> createState() => _ContentBrowseScreenState();
@@ -26,12 +28,11 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
   bool _isLoading = false;
   bool _hasError = false;
   bool _isLoadingMore = false;
-  List<String> _selectedGenre = ['Todos'];
+  late FilterData _selectedFilter;
   int _currentPage = 1;
   late int _totalItems;
 
-  List<Medium> _allContent = [];
-  List<Medium> _filteredContent = [];
+  List<Medium> _content = [];
 
   final List<String> _genres = [
     'Todos',
@@ -65,6 +66,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
     super.initState();
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
+    _selectedFilter = widget.initialFilter ?? FilterData();
     _loadInitialContent();
   }
 
@@ -79,7 +81,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
     if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200 &&
         !_isLoadingMore &&
         !_hasError &&
-        _filteredContent.length < _totalItems) {
+        _content.length < _totalItems) {
       _loadMoreContent();
     }
   }
@@ -96,8 +98,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
       if (!mounted) return;
 
       setState(() {
-        _allContent = content;
-        _filteredContent = _filterContentByGenre(content, _selectedGenre.first);
+        _content = content;
         _isLoading = false;
         _currentPage = contentPage.pagination.currentPage;
         _totalItems = contentPage.pagination.totalItems;
@@ -127,14 +128,13 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
     try {
       final newContentPage = await getMediaPage(
         page: _currentPage + 1,
-        genre: _selectedGenre.first == 'Todos' ? null : _selectedGenre,
+        filterData: _selectedFilter,
       );
       final newContent = newContentPage.data;
 
       if (!mounted) return;
       setState(() {
-        _allContent.addAll(newContent);
-        _filteredContent = _filterContentByGenre(_allContent, _selectedGenre.first);
+        _content.addAll(newContent);
         _isLoadingMore = false;
         _currentPage++;
         _totalItems = newContentPage.pagination.totalItems;
@@ -157,31 +157,22 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
     await _loadInitialContent();
   }
 
-  List<Medium> _filterContentByGenre(List<Medium> content, String genre) {
-    if (genre == 'Todos') return content;
-
-    return content.where((item) {
-      final itemGenres = item.genres.map((g) => g.toLowerCase()).toList();
-      return itemGenres.contains(genre.toLowerCase());
-    }).toList();
-  }
-
   Future<void> _onGenreSelected(String genre) async {
     setState(() {
       _currentPage = 1;
       _isLoading = true;
       _hasError = false;
+      _selectedFilter = genre != 'Todos' ? _selectedFilter.copyWith(genre: [genre]) : FilterData();
     });
     try {
-      final contentPage = await getMediaPage(genre: genre == 'Todos' ? null : [genre]);
+      final contentPage = await getMediaPage(filterData: _selectedFilter);
       final content = contentPage.data;
 
       if (!mounted) return;
       setState(() {
-        _selectedGenre = [genre];
-        _allContent = content;
+        _selectedFilter = _selectedFilter.copyWith(genre: [genre]);
+        _content = content;
         _totalItems = contentPage.pagination.totalItems;
-        _filteredContent = _filterContentByGenre(content, genre);
       });
 
       Fluttertoast.showToast(
@@ -249,7 +240,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
       body: Column(
         children: [
           GenreFilterWidget(
-            selectedGenre: _selectedGenre.first,
+            selectedGenre: _selectedFilter.genre?.first ?? 'Todos',
             genres: _genres,
             onGenreSelected: _onGenreSelected,
           ),
@@ -274,7 +265,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
       return _buildErrorState();
     }
 
-    if (_filteredContent.isEmpty) {
+    if (_content.isEmpty) {
       return _buildEmptyState();
     }
 
@@ -300,9 +291,9 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
 
   Widget _buildEmptyState() {
     return EmptyStateWidget(
-      message: _selectedGenre == 'Todos' ? 'Não há conteúdo disponível no momento.' : 'Não encontramos conteúdo para o gênero "$_selectedGenre".',
+      message: _selectedFilter == 'Todos' ? 'Não há conteúdo disponível no momento.' : 'Não encontramos conteúdo para o gênero "$_selectedFilter".',
       actionText: 'Limpar Filtro',
-      onAction: _selectedGenre != 'Todos' ? () => _onGenreSelected('Todos') : null,
+      onAction: _selectedFilter != 'Todos' ? () => _onGenreSelected('Todos') : null,
     );
   }
 
@@ -314,13 +305,13 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
       child: ListView.builder(
         controller: _scrollController,
         padding: EdgeInsets.symmetric(vertical: 2.h),
-        itemCount: _filteredContent.length + (_isLoadingMore ? 1 : 0),
+        itemCount: _content.length + (_isLoadingMore ? 1 : 0),
         itemBuilder: (context, index) {
-          if (index == _filteredContent.length) {
+          if (index == _content.length) {
             return _buildLoadingMoreIndicator();
           }
 
-          final content = _filteredContent[index];
+          final content = _content[index];
           return ContentCardWidget(
             content: content,
             onTap: () => _onContentTap(content),
