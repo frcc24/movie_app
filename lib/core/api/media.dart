@@ -9,7 +9,7 @@ import '../model/page.dart';
 Future<Page<Medium>> getMediaPage({
   int page = 1,
   MediaType? type,
-  String? genre,
+  List<String>? genre,
   int? year,
   int? rating,
 }) async {
@@ -18,7 +18,7 @@ Future<Page<Medium>> getMediaPage({
     queryParameters: {
       'page': page,
       if (type != null) 'type': type.name,
-      if (genre != null) 'genre': genre,
+      if (genre != null && genre.isNotEmpty) ...genre.asMap().map((_, value) => MapEntry('genre', value)),
       if (year != null) 'year': year,
       if (rating != null) 'rating': rating,
     },

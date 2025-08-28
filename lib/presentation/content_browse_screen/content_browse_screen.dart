@@ -26,7 +26,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
   bool _isLoading = false;
   bool _hasError = false;
   bool _isLoadingMore = false;
-  String _selectedGenre = 'Todos';
+  List<String> _selectedGenre = ['Todos'];
   int _currentPage = 1;
   late int _totalItems;
 
@@ -97,7 +97,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
 
       setState(() {
         _allContent = content;
-        _filteredContent = _filterContentByGenre(content, _selectedGenre);
+        _filteredContent = _filterContentByGenre(content, _selectedGenre.first);
         _isLoading = false;
         _currentPage = contentPage.pagination.currentPage;
         _totalItems = contentPage.pagination.totalItems;
@@ -127,14 +127,14 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
     try {
       final newContentPage = await getMediaPage(
         page: _currentPage + 1,
-        genre: _selectedGenre == 'Todos' ? null : _selectedGenre,
+        genre: _selectedGenre.first == 'Todos' ? null : _selectedGenre,
       );
       final newContent = newContentPage.data;
 
       if (!mounted) return;
       setState(() {
         _allContent.addAll(newContent);
-        _filteredContent = _filterContentByGenre(_allContent, _selectedGenre);
+        _filteredContent = _filterContentByGenre(_allContent, _selectedGenre.first);
         _isLoadingMore = false;
         _currentPage++;
         _totalItems = newContentPage.pagination.totalItems;
@@ -173,12 +173,12 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
       _hasError = false;
     });
     try {
-      final contentPage = await getMediaPage(genre: genre == 'Todos' ? null : genre);
+      final contentPage = await getMediaPage(genre: genre == 'Todos' ? null : [genre]);
       final content = contentPage.data;
 
       if (!mounted) return;
       setState(() {
-        _selectedGenre = genre;
+        _selectedGenre = [genre];
         _allContent = content;
         _totalItems = contentPage.pagination.totalItems;
         _filteredContent = _filterContentByGenre(content, genre);
@@ -249,7 +249,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
       body: Column(
         children: [
           GenreFilterWidget(
-            selectedGenre: _selectedGenre,
+            selectedGenre: _selectedGenre.first,
             genres: _genres,
             onGenreSelected: _onGenreSelected,
           ),
