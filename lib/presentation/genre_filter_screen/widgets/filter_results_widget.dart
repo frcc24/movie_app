@@ -4,14 +4,12 @@ import 'package:sizer/sizer.dart';
 import '../../../core/app_export.dart';
 
 class FilterResultsWidget extends StatelessWidget {
-  final int resultsCount;
   final List<String> selectedGenres;
   final String selectedContentType;
   final double selectedRating;
 
   const FilterResultsWidget({
     super.key,
-    required this.resultsCount,
     required this.selectedGenres,
     required this.selectedContentType,
     required this.selectedRating,
@@ -19,6 +17,10 @@ class FilterResultsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (selectedGenres.isEmpty && selectedContentType == 'Todos' && selectedRating == 0.0) {
+      return const SizedBox.shrink();
+    }
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
       padding: EdgeInsets.all(4.w),
@@ -30,31 +32,9 @@ class FilterResultsWidget extends StatelessWidget {
         ),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            children: [
-              CustomIconWidget(
-                iconName: 'search',
-                color: AppTheme.successColor,
-                size: 5.w,
-              ),
-              SizedBox(width: 2.w),
-              Expanded(
-                child: Text(
-                  '$resultsCount filmes e séries encontrados',
-                  style: AppTheme.darkTheme.textTheme.titleSmall?.copyWith(
-                    color: AppTheme.successColor,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          if (selectedGenres.isNotEmpty ||
-              selectedContentType != 'Todos' ||
-              selectedRating > 0.0) ...[
-            SizedBox(height: 2.h),
+          if (selectedGenres.isNotEmpty || selectedContentType != 'Todos' || selectedRating > 0.0) ...[
             Text(
               'Filtros Ativos:',
               style: AppTheme.darkTheme.textTheme.labelMedium?.copyWith(
@@ -66,10 +46,8 @@ class FilterResultsWidget extends StatelessWidget {
               spacing: 2.w,
               runSpacing: 1.h,
               children: [
-                if (selectedContentType != 'Todos')
-                  _buildFilterChip(selectedContentType),
-                if (selectedRating > 0.0)
-                  _buildFilterChip('★ ${selectedRating.toStringAsFixed(1)}+'),
+                if (selectedContentType != 'Todos') _buildFilterChip(selectedContentType),
+                if (selectedRating > 0.0) _buildFilterChip('★ ${selectedRating.toStringAsFixed(1)}+'),
                 ...selectedGenres.map((genre) => _buildFilterChip(genre)),
               ],
             ),

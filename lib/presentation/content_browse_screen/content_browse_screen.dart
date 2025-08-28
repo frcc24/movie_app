@@ -170,7 +170,6 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
 
       if (!mounted) return;
       setState(() {
-        _selectedFilter = _selectedFilter.copyWith(genre: [genre]);
         _content = content;
         _totalItems = contentPage.pagination.totalItems;
       });

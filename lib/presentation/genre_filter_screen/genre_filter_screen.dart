@@ -22,10 +22,9 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
   List<String> selectedGenres = [];
   String selectedContentType = 'Todos';
   double selectedRating = 0.0;
-  int resultsCount = 1247;
+  // int resultsCount = 1247;
 
   final List<Map<String, dynamic>> genreList = [
-    {'id': 1, 'name': 'Todos', 'count': 34, 'icon': 'apps'},
     {'id': 2, 'name': 'Ação', 'count': 8, 'icon': 'sports_martial_arts'},
     {'id': 3, 'name': 'Aventura', 'count': 5, 'icon': 'terrain'},
     {'id': 4, 'name': 'Comédia', 'count': 1, 'icon': 'sentiment_satisfied'},
@@ -67,7 +66,7 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
     ));
 
     _slideController.forward();
-    _updateResultsCount();
+    // _updateResultsCount();
   }
 
   @override
@@ -76,29 +75,29 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
     super.dispose();
   }
 
-  void _updateResultsCount() {
-    int baseCount = 1247;
-    int filteredCount = baseCount;
+  // void _updateResultsCount() {
+  //   int baseCount = 1247;
+  //   int filteredCount = baseCount;
 
-    // Simulate filtering logic
-    if (selectedGenres.isNotEmpty) {
-      filteredCount = (filteredCount * 0.6).round();
-    }
+  //   // Simulate filtering logic
+  //   if (selectedGenres.isNotEmpty) {
+  //     filteredCount = (filteredCount * 0.6).round();
+  //   }
 
-    if (selectedContentType == 'Filmes') {
-      filteredCount = (filteredCount * 0.7).round();
-    } else if (selectedContentType == 'Séries') {
-      filteredCount = (filteredCount * 0.3).round();
-    }
+  //   if (selectedContentType == 'Filmes') {
+  //     filteredCount = (filteredCount * 0.7).round();
+  //   } else if (selectedContentType == 'Séries') {
+  //     filteredCount = (filteredCount * 0.3).round();
+  //   }
 
-    if (selectedRating > 0.0) {
-      filteredCount = (filteredCount * (1 - selectedRating / 15)).round();
-    }
+  //   if (selectedRating > 0.0) {
+  //     filteredCount = (filteredCount * (1 - selectedRating / 15)).round();
+  //   }
 
-    setState(() {
-      resultsCount = filteredCount.clamp(0, baseCount);
-    });
-  }
+  //   setState(() {
+  //     resultsCount = filteredCount.clamp(0, baseCount);
+  //   });
+  // }
 
   void _toggleGenre(String genreName) {
     HapticFeedback.lightImpact();
@@ -109,7 +108,7 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
         selectedGenres.add(genreName);
       }
     });
-    _updateResultsCount();
+    // _updateResultsCount();
   }
 
   void _clearAllFilters() {
@@ -119,7 +118,7 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
       selectedContentType = 'Todos';
       selectedRating = 0.0;
     });
-    _updateResultsCount();
+    // _updateResultsCount();
   }
 
   void _applyFilters() {
@@ -128,7 +127,7 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
       'selectedGenres': selectedGenres,
       'contentType': selectedContentType,
       'rating': selectedRating,
-      'resultsCount': resultsCount,
+      'resultsCount': 34,
     });
   }
 
@@ -165,7 +164,7 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
                           setState(() {
                             selectedContentType = type;
                           });
-                          _updateResultsCount();
+                          // _updateResultsCount();
                         },
                       ),
                       RatingSliderWidget(
@@ -174,13 +173,12 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
                           setState(() {
                             selectedRating = rating;
                           });
-                          _updateResultsCount();
+                          // _updateResultsCount();
                         },
                       ),
                       _buildGenresSection(),
                       SizedBox(height: 2.h),
                       FilterResultsWidget(
-                        resultsCount: resultsCount,
                         selectedGenres: selectedGenres,
                         selectedContentType: selectedContentType,
                         selectedRating: selectedRating,
@@ -358,7 +356,7 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
                 ),
                 SizedBox(width: 2.w),
                 Text(
-                  hasActiveFilters ? 'Aplicar Filtros ($resultsCount resultados)' : 'Selecione os filtros',
+                  hasActiveFilters ? 'Aplicar Filtros' : 'Selecione os filtros',
                   style: AppTheme.darkTheme.textTheme.titleSmall?.copyWith(
                     color: AppTheme.contentWhite,
                     fontWeight: FontWeight.w600,
