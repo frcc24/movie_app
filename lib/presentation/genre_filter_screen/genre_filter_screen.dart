@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:movies__series_app/core/enums/media_type.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../core/app_export.dart';
+import '../../core/model/filter_data.dart';
 import './widgets/content_type_toggle_widget.dart';
 import './widgets/filter_results_widget.dart';
 import './widgets/genre_card_widget.dart';
@@ -95,12 +97,13 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
 
   void _applyFilters() {
     HapticFeedback.lightImpact();
-    Navigator.pop(context, {
-      'selectedGenres': selectedGenres,
-      'contentType': selectedContentType,
-      'rating': selectedRating,
-      'resultsCount': 34,
-    });
+    Navigator.pop<FilterData>(
+        context,
+        FilterData(
+          genre: selectedGenres,
+          type: mediaTypeFromPTBRString(selectedContentType),
+          rating: selectedRating,
+        ));
   }
 
   void _cancelFilters() {
@@ -136,7 +139,6 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
                           setState(() {
                             selectedContentType = type;
                           });
-                          // _updateResultsCount();
                         },
                       ),
                       RatingSliderWidget(

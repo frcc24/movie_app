@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../core/model/filter_data.dart';
 
 import '../core/model/medium.dart';
 import '../presentation/content_browse_screen/content_browse_screen.dart';
@@ -14,10 +15,20 @@ class AppRoutes {
   static Map<String, WidgetBuilder> routes = {
     initial: (context) => const ContentBrowseScreen(),
     contentBrowse: (context) => const ContentBrowseScreen(),
-    genreFilter: (context) => const GenreFilterScreen(),
     contentDetail: (context) {
       final medium = ModalRoute.of(context)!.settings.arguments as Medium;
       return ContentDetailScreen(medium: medium);
     },
   };
+
+  static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case genreFilter:
+        return MaterialPageRoute<FilterData?>(
+          builder: (context) => GenreFilterScreen(),
+        );
+      default:
+        return null;
+    }
+  }
 }

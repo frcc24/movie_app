@@ -49,7 +49,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: false,
       automaticallyImplyLeading: automaticallyImplyLeading,
       leading: _buildLeading(context),
-      actions: _buildActions(context),
+      actions: actions ?? _buildActions(context),
       titleTextStyle: _getTitleTextStyle(context),
       iconTheme: IconThemeData(
         color: _getForegroundColor(colorScheme),
@@ -66,13 +66,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     switch (variant) {
       case CustomAppBarVariant.search:
         return GestureDetector(
-          onTap: onSearchTap ??
-              () => Navigator.pushNamed(context, '/content-browse-screen'),
+          onTap: onSearchTap ?? () => Navigator.pushNamed(context, '/content-browse-screen'),
           child: Container(
             height: 40,
             decoration: BoxDecoration(
-              color:
-                  Theme.of(context).colorScheme.surface.withValues(alpha: 0.1),
+              color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: const Color(0xFF2D3748).withValues(alpha: 0.3),
@@ -111,8 +109,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget? _buildLeading(BuildContext context) {
     if (leading != null) return leading;
 
-    if (showBackButton ||
-        (automaticallyImplyLeading && Navigator.canPop(context))) {
+    if (showBackButton || (automaticallyImplyLeading && Navigator.canPop(context))) {
       return IconButton(
         icon: const Icon(Icons.arrow_back_ios),
         onPressed: () => Navigator.pop(context),
@@ -130,15 +127,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       case CustomAppBarVariant.primary:
         return [
           IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () =>
-                Navigator.pushNamed(context, '/content-browse-screen'),
-            tooltip: 'Search',
-          ),
-          IconButton(
             icon: const Icon(Icons.filter_list),
-            onPressed: () =>
-                Navigator.pushNamed(context, '/genre-filter-screen'),
+            onPressed: () => Navigator.pushNamed(context, '/genre-filter-screen'),
             tooltip: 'Filter',
           ),
           const SizedBox(width: 8),

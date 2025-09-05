@@ -201,6 +201,42 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
     }
   }
 
+  Future<void> _onFilterApplied(FilterData filterData) async {
+    setState(() {
+      _currentPage = 1;
+      _isLoading = true;
+      _hasError = false;
+      _selectedFilter = filterData;
+    });
+    try {
+      final contentPage = await getMediaPage(filterData: filterData);
+      final content = contentPage.data;
+
+      if (!mounted) return;
+      setState(() {
+        _content = content;
+        _totalItems = contentPage.pagination.totalItems;
+      });
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: 'Erro ao aplicar filtro: $e',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: AppTheme.darkTheme.colorScheme.surface,
+        textColor: AppTheme.contentWhite,
+      );
+      setState(() {
+        _hasError = true;
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
   void _onContentTap(Medium content) {
     Navigator.pushNamed(
       context,
@@ -233,8 +269,22 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.darkTheme.scaffoldBackgroundColor,
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         title: 'CineList',
+        actions: [
+          IconButton(
+            tooltip: 'Filter',
+            icon: const Icon(Icons.filter_list),
+            onPressed: () => Navigator.pushNamed<FilterData>(context, '/genre-filter-screen').then(
+              (FilterData) {
+                if (FilterData != null) {
+                  _onFilterApplied(FilterData);
+                }
+              },
+            ),
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
       body: Column(
         children: [

@@ -4,7 +4,7 @@ class FilterData {
   final MediaType? type;
   final List<String>? genre;
   final int? year;
-  final int? rating;
+  final double? rating;
 
   const FilterData({
     this.type,
@@ -17,7 +17,7 @@ class FilterData {
     MediaType? type,
     List<String>? genre,
     int? year,
-    int? rating,
+    double? rating,
   }) {
     return FilterData(
       type: type ?? this.type,

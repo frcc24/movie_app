@@ -10,3 +10,14 @@ extension MediaTypeExtension on MediaType {
     }
   }
 }
+
+MediaType? mediaTypeFromPTBRString(String type) {
+  switch (type.toLowerCase()) {
+    case 'filmes':
+      return MediaType.movie;
+    case 'séries':
+      return MediaType.series;
+    default:
+      return null;
+  }
+}
