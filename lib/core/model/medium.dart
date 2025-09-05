@@ -8,7 +8,6 @@ class Medium {
   final List<String> genres;
   final String synopsis;
   final double rating;
-  // final List<StreamingPlatform> streamingPlatforms;
   final String? poster;
   final int year;
   final String duration;
@@ -22,7 +21,6 @@ class Medium {
     required this.genres,
     required this.synopsis,
     required this.rating,
-    // required this.streamingPlatforms,
     this.poster,
     required this.year,
     required this.duration,
@@ -41,11 +39,6 @@ class Medium {
       genres: List<String>.from(json['genre']),
       synopsis: json['synopsis'],
       rating: (json['rating'] as num).toDouble(),
-      // streamingPlatforms: (json['streamingPlatforms'] as List)
-      //     .map(
-      //       (platform) => StreamingPlatform.fromJson(platform),
-      //     )
-      //     .toList(),
       poster: json['poster'],
       year: json['year'],
       duration: json['duration'],
