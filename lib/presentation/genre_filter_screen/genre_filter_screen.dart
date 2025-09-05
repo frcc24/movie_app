@@ -22,32 +22,31 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
   List<String> selectedGenres = [];
   String selectedContentType = 'Todos';
   double selectedRating = 0.0;
-  // int resultsCount = 1247;
 
   final List<Map<String, dynamic>> genreList = [
-    {'id': 2, 'name': 'Ação', 'count': 8, 'icon': 'sports_martial_arts'},
-    {'id': 3, 'name': 'Aventura', 'count': 5, 'icon': 'terrain'},
-    {'id': 4, 'name': 'Comédia', 'count': 1, 'icon': 'sentiment_satisfied'},
-    {'id': 5, 'name': 'Drama', 'count': 20, 'icon': 'theater_comedy'},
-    {'id': 6, 'name': 'Ficção Científica', 'count': 8, 'icon': 'science'},
-    {'id': 7, 'name': 'Terror', 'count': 1, 'icon': 'ghost'},
-    {'id': 8, 'name': 'Romance', 'count': 1, 'icon': 'favorite'},
-    {'id': 9, 'name': 'Thriller', 'count': 0, 'icon': 'psychology'},
-    {'id': 10, 'name': 'Documentário', 'count': 0, 'icon': 'menu_book'},
-    {'id': 11, 'name': 'Animação', 'count': 1, 'icon': 'animation'},
-    {'id': 12, 'name': 'Crime', 'count': 8, 'icon': 'gavel'},
-    {'id': 13, 'name': 'Fantasia', 'count': 4, 'icon': 'auto_awesome'},
-    {'id': 14, 'name': 'Mistério', 'count': 3, 'icon': 'help_outline'},
-    {'id': 15, 'name': 'Guerra', 'count': 0, 'icon': 'military_tech'},
-    {'id': 16, 'name': 'Histórico', 'count': 1, 'icon': 'history_edu'},
-    {'id': 17, 'name': 'Música', 'count': 1, 'icon': 'music_note'},
-    {'id': 18, 'name': 'Família', 'count': 0, 'icon': 'family_restroom'},
-    {'id': 19, 'name': 'Western', 'count': 0, 'icon': 'outdoor_grill'},
-    {'id': 20, 'name': 'Biografia', 'count': 0, 'icon': 'person'},
-    {'id': 21, 'name': 'Suspense', 'count': 6, 'icon': 'visibility'},
-    {'id': 22, 'name': 'Cyberpunk', 'count': 1, 'icon': 'computer'},
-    {'id': 23, 'name': 'Sobrevivência', 'count': 1, 'icon': 'terrain'},
-    {'id': 24, 'name': 'Jovem Adulto', 'count': 1, 'icon': 'school'},
+    {'name': 'Ação', 'icon': 'sports_martial_arts'},
+    {'name': 'Aventura', 'icon': 'terrain'},
+    {'name': 'Comédia', 'icon': 'sentiment_satisfied'},
+    {'name': 'Drama', 'icon': 'theater_comedy'},
+    {'name': 'Ficção Científica', 'icon': 'science'},
+    {'name': 'Terror', 'icon': 'ghost'},
+    {'name': 'Romance', 'icon': 'favorite'},
+    {'name': 'Thriller', 'icon': 'psychology'},
+    {'name': 'Documentário', 'icon': 'menu_book'},
+    {'name': 'Animação', 'icon': 'animation'},
+    {'name': 'Crime', 'icon': 'gavel'},
+    {'name': 'Fantasia', 'icon': 'auto_awesome'},
+    {'name': 'Mistério', 'icon': 'help_outline'},
+    {'name': 'Guerra', 'icon': 'military_tech'},
+    {'name': 'Histórico', 'icon': 'history_edu'},
+    {'name': 'Música', 'icon': 'music_note'},
+    {'name': 'Família', 'icon': 'family_restroom'},
+    {'name': 'Western', 'icon': 'outdoor_grill'},
+    {'name': 'Biografia', 'icon': 'person'},
+    {'name': 'Suspense', 'icon': 'visibility'},
+    {'name': 'Cyberpunk', 'icon': 'computer'},
+    {'name': 'Sobrevivência', 'icon': 'terrain'},
+    {'name': 'Jovem Adulto', 'icon': 'school'},
   ];
 
   @override
@@ -66,7 +65,6 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
     ));
 
     _slideController.forward();
-    // _updateResultsCount();
   }
 
   @override
@@ -74,30 +72,6 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
     _slideController.dispose();
     super.dispose();
   }
-
-  // void _updateResultsCount() {
-  //   int baseCount = 1247;
-  //   int filteredCount = baseCount;
-
-  //   // Simulate filtering logic
-  //   if (selectedGenres.isNotEmpty) {
-  //     filteredCount = (filteredCount * 0.6).round();
-  //   }
-
-  //   if (selectedContentType == 'Filmes') {
-  //     filteredCount = (filteredCount * 0.7).round();
-  //   } else if (selectedContentType == 'Séries') {
-  //     filteredCount = (filteredCount * 0.3).round();
-  //   }
-
-  //   if (selectedRating > 0.0) {
-  //     filteredCount = (filteredCount * (1 - selectedRating / 15)).round();
-  //   }
-
-  //   setState(() {
-  //     resultsCount = filteredCount.clamp(0, baseCount);
-  //   });
-  // }
 
   void _toggleGenre(String genreName) {
     HapticFeedback.lightImpact();
@@ -108,7 +82,6 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
         selectedGenres.add(genreName);
       }
     });
-    // _updateResultsCount();
   }
 
   void _clearAllFilters() {
@@ -118,7 +91,6 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
       selectedContentType = 'Todos';
       selectedRating = 0.0;
     });
-    // _updateResultsCount();
   }
 
   void _applyFilters() {
@@ -183,7 +155,7 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
                         selectedContentType: selectedContentType,
                         selectedRating: selectedRating,
                       ),
-                      SizedBox(height: 10.h),
+                      SizedBox(height: 16.h),
                     ],
                   ),
                 ),

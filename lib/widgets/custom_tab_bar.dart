@@ -65,7 +65,6 @@ class _CustomTabBarState extends State<CustomTabBar>
   }
 
   void _handleTabNavigation(int index) {
-    // Navigate based on tab selection
     switch (index) {
       case 0:
         Navigator.pushNamed(context, '/content-browse-screen');
