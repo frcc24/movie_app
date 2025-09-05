@@ -43,10 +43,10 @@ class _CustomBottomBarState extends State<CustomBottomBar> with TickerProviderSt
       route: '/content-browse-screen',
     ),
     _BottomBarItem(
-      icon: Icons.category_outlined,
-      activeIcon: Icons.category,
-      label: 'Gêneros',
-      route: '/genre-filter-screen',
+      icon: Icons.favorite_border,
+      activeIcon: Icons.favorite,
+      label: 'Favoritos',
+      route: '',
     ),
   ];
 
@@ -207,7 +207,7 @@ class _CustomBottomBarState extends State<CustomBottomBar> with TickerProviderSt
       onTapCancel: () => _animationController.reverse(),
       onTap: () {
         widget.onTap?.call(index);
-        if (!isSelected) Navigator.pushNamed(context, item.route);
+        if (!isSelected && item.route.isNotEmpty) Navigator.pushNamed(context, item.route);
       },
       child: AnimatedBuilder(
         animation: _scaleAnimation,
