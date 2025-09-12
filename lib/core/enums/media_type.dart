@@ -9,6 +9,15 @@ extension MediaTypeExtension on MediaType {
         return 'series';
     }
   }
+
+  String get ptBrName {
+    switch (this) {
+      case MediaType.movie:
+        return 'Filmes';
+      case MediaType.series:
+        return 'Séries';
+    }
+  }
 }
 
 MediaType? mediaTypeFromPTBRString(String type) {

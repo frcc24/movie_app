@@ -49,7 +49,7 @@ class FilterData {
   @override
   String toString() {
     var string = '';
-    if (type != null) string += 'type: $type, ';
+    if (type != null) string += 'type: ${type!.ptBrName}, ';
     if (genre != null) string += 'genre: $genre, ';
     if (year != null) string += 'year: $year, ';
     if (rating != null) string += 'rating >= $rating, ';
