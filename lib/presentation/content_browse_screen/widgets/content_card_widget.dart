@@ -128,20 +128,20 @@ class ContentCardWidget extends StatelessWidget {
       children: [
         ...List.generate(5, (index) {
           if (index < fullStars) {
-            return CustomIconWidget(
-              iconName: 'star',
+            return Icon(
+              Icons.star,
               color: AppTheme.warningColor,
               size: 16,
             );
           } else if (index == fullStars && hasHalfStar) {
-            return CustomIconWidget(
-              iconName: 'star_half',
+            return Icon(
+              Icons.star_half,
               color: AppTheme.warningColor,
               size: 16,
             );
           } else {
-            return CustomIconWidget(
-              iconName: 'star_border',
+            return Icon(
+              Icons.star_border,
               color: AppTheme.mutedText,
               size: 16,
             );
@@ -199,8 +199,8 @@ class ContentCardWidget extends StatelessWidget {
             ),
             SizedBox(height: 3.h),
             ListTile(
-              leading: CustomIconWidget(
-                iconName: 'favorite_border',
+              leading: Icon(
+                Icons.favorite_border,
                 color: AppTheme.accentColor,
                 size: 24,
               ),
@@ -214,8 +214,8 @@ class ContentCardWidget extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: CustomIconWidget(
-                iconName: 'share',
+              leading: Icon(
+                Icons.share,
                 color: AppTheme.successColor,
                 size: 24,
               ),

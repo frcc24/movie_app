@@ -26,29 +26,29 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
   double selectedRating = 0.0;
 
   final List<Map<String, dynamic>> genreList = [
-    {'name': 'Ação', 'icon': 'sports_martial_arts'},
-    {'name': 'Aventura', 'icon': 'terrain'},
-    {'name': 'Comédia', 'icon': 'sentiment_satisfied'},
-    {'name': 'Drama', 'icon': 'theater_comedy'},
-    {'name': 'Ficção Científica', 'icon': 'science'},
-    {'name': 'Terror', 'icon': 'ghost'},
-    {'name': 'Romance', 'icon': 'favorite'},
-    {'name': 'Thriller', 'icon': 'psychology'},
-    {'name': 'Documentário', 'icon': 'menu_book'},
-    {'name': 'Animação', 'icon': 'animation'},
-    {'name': 'Crime', 'icon': 'gavel'},
-    {'name': 'Fantasia', 'icon': 'auto_awesome'},
-    {'name': 'Mistério', 'icon': 'help_outline'},
-    {'name': 'Guerra', 'icon': 'military_tech'},
-    {'name': 'Histórico', 'icon': 'history_edu'},
-    {'name': 'Música', 'icon': 'music_note'},
-    {'name': 'Família', 'icon': 'family_restroom'},
-    {'name': 'Western', 'icon': 'outdoor_grill'},
-    {'name': 'Biografia', 'icon': 'person'},
-    {'name': 'Suspense', 'icon': 'visibility'},
-    {'name': 'Cyberpunk', 'icon': 'computer'},
-    {'name': 'Sobrevivência', 'icon': 'terrain'},
-    {'name': 'Jovem Adulto', 'icon': 'school'},
+    {'name': 'Ação', 'icon': Icons.sports_martial_arts},
+    {'name': 'Aventura', 'icon': Icons.terrain},
+    {'name': 'Comédia', 'icon': Icons.sentiment_satisfied},
+    {'name': 'Drama', 'icon': Icons.theater_comedy},
+    {'name': 'Ficção Científica', 'icon': Icons.science},
+    {'name': 'Terror', 'icon': Icons.nightlight_round},
+    {'name': 'Romance', 'icon': Icons.favorite},
+    {'name': 'Thriller', 'icon': Icons.psychology},
+    {'name': 'Documentário', 'icon': Icons.menu_book},
+    {'name': 'Animação', 'icon': Icons.animation},
+    {'name': 'Crime', 'icon': Icons.gavel},
+    {'name': 'Fantasia', 'icon': Icons.auto_awesome},
+    {'name': 'Mistério', 'icon': Icons.help_outline},
+    {'name': 'Guerra', 'icon': Icons.military_tech},
+    {'name': 'Histórico', 'icon': Icons.history_edu},
+    {'name': 'Música', 'icon': Icons.music_note},
+    {'name': 'Família', 'icon': Icons.family_restroom},
+    {'name': 'Western', 'icon': Icons.outdoor_grill},
+    {'name': 'Biografia', 'icon': Icons.person},
+    {'name': 'Suspense', 'icon': Icons.visibility},
+    {'name': 'Cyberpunk', 'icon': Icons.computer},
+    {'name': 'Sobrevivência', 'icon': Icons.terrain},
+    {'name': 'Jovem Adulto', 'icon': Icons.school},
   ];
 
   @override
@@ -244,8 +244,8 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    CustomIconWidget(
-                      iconName: 'clear',
+                    Icon(
+                      Icons.clear,
                       color: AppTheme.accentColor,
                       size: 4.w,
                     ),
@@ -323,8 +323,8 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CustomIconWidget(
-                  iconName: 'filter_list',
+                Icon(
+                  Icons.filter_list,
                   color: AppTheme.contentWhite,
                   size: 5.w,
                 ),

@@ -7,8 +7,6 @@ class CustomImageWidget extends StatelessWidget {
   final double height;
   final BoxFit fit;
 
-  /// Optional widget to show when the image fails to load.
-  /// If null, a default asset image is shown.
   final Widget? errorWidget;
 
   const CustomImageWidget({
@@ -29,7 +27,6 @@ class CustomImageWidget extends StatelessWidget {
       height: height,
       fit: fit,
 
-      // Use caller-supplied widget if provided, else fallback asset.
       errorWidget: (context, url, error) =>
           errorWidget ??
           Image.asset(

@@ -109,8 +109,8 @@ class _UserRatingsWidgetState extends State<UserRatingsWidget> {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: List.generate(5, (index) {
-                        return CustomIconWidget(
-                          iconName: index < averageRating.floor() ? 'star' : 'star_border',
+                        return Icon(
+                          index < averageRating.floor() ? Icons.star : Icons.star_border,
                           color: AppTheme.warningColor,
                           size: 16,
                         );
@@ -143,8 +143,8 @@ class _UserRatingsWidgetState extends State<UserRatingsWidget> {
                               ),
                             ),
                             SizedBox(width: 2.w),
-                            CustomIconWidget(
-                              iconName: 'star',
+                            Icon(
+                              Icons.star,
                               color: AppTheme.warningColor,
                               size: 12,
                             ),

@@ -6,7 +6,6 @@ import '../../core/app_export.dart';
 import '../../core/model/filter_data.dart';
 import '../../core/model/medium.dart';
 import '../../widgets/custom_app_bar.dart';
-import '../../widgets/custom_bottom_bar.dart';
 import './widgets/content_card_widget.dart';
 import './widgets/content_skeleton_widget.dart';
 import './widgets/empty_state_widget.dart';
@@ -240,7 +239,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
   void _onContentTap(Medium content) {
     Navigator.pushNamed(
       context,
-      '/content-detail-screen',
+      AppRoutes.contentDetail,
       arguments: content,
     );
   }
@@ -275,7 +274,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
           IconButton(
             tooltip: 'Filter',
             icon: const Icon(Icons.filter_list),
-            onPressed: () => Navigator.pushNamed<FilterData>(context, '/genre-filter-screen').then(
+            onPressed: () => Navigator.pushNamed<FilterData?>(context, AppRoutes.genreFilter).then(
               (FilterData) {
                 if (FilterData != null) {
                   _onFilterApplied(FilterData);
@@ -297,10 +296,6 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
             child: _buildContent(),
           ),
         ],
-      ),
-      bottomNavigationBar: const CustomBottomBar(
-        variant: CustomBottomBarVariant.primary,
-        currentIndex: 0,
       ),
     );
   }

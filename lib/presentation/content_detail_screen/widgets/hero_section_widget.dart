@@ -82,8 +82,8 @@ class HeroSectionWidget extends StatelessWidget {
                       SizedBox(width: 3.w),
                       Row(
                         children: [
-                          CustomIconWidget(
-                            iconName: 'star',
+                          Icon(
+                            Icons.star,
                             color: AppTheme.warningColor,
                             size: 16,
                           ),

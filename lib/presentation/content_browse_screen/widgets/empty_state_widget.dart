@@ -30,8 +30,8 @@ class EmptyStateWidget extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: Center(
-              child: CustomIconWidget(
-                iconName: 'movie_filter',
+              child: Icon(
+                Icons.movie_filter,
                 color: AppTheme.mutedText,
                 size: 64,
               ),

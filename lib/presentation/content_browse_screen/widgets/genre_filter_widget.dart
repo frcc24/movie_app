@@ -33,8 +33,8 @@ class GenreFilterWidget extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              CustomIconWidget(
-                iconName: 'filter_list',
+              Icon(
+                Icons.filter_list,
                 color: AppTheme.accentColor,
                 size: 20,
               ),
@@ -42,15 +42,13 @@ class GenreFilterWidget extends StatelessWidget {
               Text(
                 selectedGenre == 'Todos' ? 'Filtrar por Gênero' : selectedGenre,
                 style: AppTheme.darkTheme.textTheme.bodyMedium?.copyWith(
-                  color: selectedGenre == 'Todos'
-                      ? AppTheme.mutedText
-                      : AppTheme.contentWhite,
+                  color: selectedGenre == 'Todos' ? AppTheme.mutedText : AppTheme.contentWhite,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               SizedBox(width: 2.w),
-              CustomIconWidget(
-                iconName: 'keyboard_arrow_down',
+              Icon(
+                Icons.keyboard_arrow_down,
                 color: AppTheme.mutedText,
                 size: 20,
               ),
@@ -104,24 +102,16 @@ class GenreFilterWidget extends StatelessWidget {
 
                     return ListTile(
                       contentPadding: EdgeInsets.symmetric(horizontal: 2.w),
-                      leading: CustomIconWidget(
-                        iconName: isSelected
-                            ? 'radio_button_checked'
-                            : 'radio_button_unchecked',
-                        color: isSelected
-                            ? AppTheme.accentColor
-                            : AppTheme.mutedText,
+                      leading: Icon(
+                        isSelected ? Icons.radio_button_checked : Icons.radio_button_unchecked,
+                        color: isSelected ? AppTheme.accentColor : AppTheme.mutedText,
                         size: 24,
                       ),
                       title: Text(
                         genre,
-                        style:
-                            AppTheme.darkTheme.textTheme.bodyMedium?.copyWith(
-                          color: isSelected
-                              ? AppTheme.accentColor
-                              : AppTheme.contentWhite,
-                          fontWeight:
-                              isSelected ? FontWeight.w600 : FontWeight.w400,
+                        style: AppTheme.darkTheme.textTheme.bodyMedium?.copyWith(
+                          color: isSelected ? AppTheme.accentColor : AppTheme.contentWhite,
+                          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                         ),
                       ),
                       onTap: () {

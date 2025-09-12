@@ -28,8 +28,8 @@ class ErrorRetryWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          CustomIconWidget(
-            iconName: 'error_outline',
+          Icon(
+            Icons.error_outline,
             color: AppTheme.accentColor,
             size: 48,
           ),
@@ -53,8 +53,8 @@ class ErrorRetryWidget extends StatelessWidget {
           SizedBox(height: 3.h),
           ElevatedButton.icon(
             onPressed: onRetry,
-            icon: CustomIconWidget(
-              iconName: 'refresh',
+            icon: Icon(
+              Icons.refresh,
               color: AppTheme.contentWhite,
               size: 20,
             ),

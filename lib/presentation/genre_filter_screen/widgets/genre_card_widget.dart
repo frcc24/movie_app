@@ -47,8 +47,8 @@ class GenreCardWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  CustomIconWidget(
-                    iconName: genre['icon'] as String,
+                  Icon(
+                    genre['icon'] as IconData,
                     color: isSelected ? AppTheme.accentColor : AppTheme.mutedText,
                     size: 8.w,
                   ),
@@ -77,8 +77,8 @@ class GenreCardWidget extends StatelessWidget {
                     color: AppTheme.accentColor,
                     shape: BoxShape.circle,
                   ),
-                  child: CustomIconWidget(
-                    iconName: 'check',
+                  child: Icon(
+                    Icons.check,
                     color: AppTheme.contentWhite,
                     size: 4.w,
                   ),

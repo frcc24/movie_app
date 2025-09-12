@@ -19,8 +19,7 @@ class ActionButtonsWidget extends StatefulWidget {
   State<ActionButtonsWidget> createState() => _ActionButtonsWidgetState();
 }
 
-class _ActionButtonsWidgetState extends State<ActionButtonsWidget>
-    with TickerProviderStateMixin {
+class _ActionButtonsWidgetState extends State<ActionButtonsWidget> with TickerProviderStateMixin {
   late AnimationController _heartAnimationController;
   late Animation<double> _heartScaleAnimation;
   bool _isInWatchlist = false;
@@ -65,9 +64,7 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget>
               child: Container(
                 height: 6.h,
                 decoration: BoxDecoration(
-                  color: _isInWatchlist
-                      ? AppTheme.accentColor
-                      : AppTheme.accentColor.withValues(alpha: 0.1),
+                  color: _isInWatchlist ? AppTheme.accentColor : AppTheme.accentColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
                     color: AppTheme.accentColor,
@@ -82,12 +79,9 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget>
                       builder: (context, child) {
                         return Transform.scale(
                           scale: _heartScaleAnimation.value,
-                          child: CustomIconWidget(
-                            iconName:
-                                _isInWatchlist ? 'favorite' : 'favorite_border',
-                            color: _isInWatchlist
-                                ? AppTheme.contentWhite
-                                : AppTheme.accentColor,
+                          child: Icon(
+                            _isInWatchlist ? Icons.favorite : Icons.favorite_border,
+                            color: _isInWatchlist ? AppTheme.contentWhite : AppTheme.accentColor,
                             size: 20,
                           ),
                         );
@@ -97,9 +91,7 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget>
                     Text(
                       _isInWatchlist ? 'Na Lista' : 'Adicionar à Lista',
                       style: AppTheme.darkTheme.textTheme.bodyMedium?.copyWith(
-                        color: _isInWatchlist
-                            ? AppTheme.contentWhite
-                            : AppTheme.accentColor,
+                        color: _isInWatchlist ? AppTheme.contentWhite : AppTheme.accentColor,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -125,8 +117,8 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget>
                 ),
               ),
               child: Center(
-                child: CustomIconWidget(
-                  iconName: 'share',
+                child: Icon(
+                  Icons.share,
                   color: AppTheme.contentWhite,
                   size: 20,
                 ),
@@ -152,12 +144,9 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          _isInWatchlist
-              ? 'Adicionado à sua lista de favoritos!'
-              : 'Removido da sua lista de favoritos',
+          _isInWatchlist ? 'Adicionado à sua lista de favoritos!' : 'Removido da sua lista de favoritos',
         ),
-        backgroundColor:
-            _isInWatchlist ? AppTheme.successColor : AppTheme.mutedText,
+        backgroundColor: _isInWatchlist ? AppTheme.successColor : AppTheme.mutedText,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
@@ -209,15 +198,15 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget>
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _buildShareOption('WhatsApp', 'message', () {
+                _buildShareOption('WhatsApp', Icons.message, () {
                   Navigator.pop(context);
                   _showShareFeedback('WhatsApp');
                 }),
-                _buildShareOption('Copiar Link', 'link', () {
+                _buildShareOption('Copiar Link', Icons.link, () {
                   Navigator.pop(context);
                   _showShareFeedback('Link copiado');
                 }),
-                _buildShareOption('Mais', 'more_horiz', () {
+                _buildShareOption('Mais', Icons.more_horiz, () {
                   Navigator.pop(context);
                   _showShareFeedback('Opções de compartilhamento');
                 }),
@@ -233,7 +222,7 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget>
     widget.onShare?.call();
   }
 
-  Widget _buildShareOption(String label, String iconName, VoidCallback onTap) {
+  Widget _buildShareOption(String label, IconData iconData, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Column(
@@ -249,8 +238,8 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget>
               ),
             ),
             child: Center(
-              child: CustomIconWidget(
-                iconName: iconName,
+              child: Icon(
+                iconData,
                 color: AppTheme.contentWhite,
                 size: 24,
               ),

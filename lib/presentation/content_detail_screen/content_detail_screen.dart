@@ -46,8 +46,8 @@ class ContentDetailScreen extends StatelessWidget {
             pinned: true,
             expandedHeight: 0,
             leading: IconButton(
-              icon: CustomIconWidget(
-                iconName: 'arrow_back_ios',
+              icon: Icon(
+                Icons.arrow_back_ios,
                 color: AppTheme.contentWhite,
                 size: 24,
               ),
@@ -62,8 +62,8 @@ class ContentDetailScreen extends StatelessWidget {
             ),
             actions: [
               IconButton(
-                  icon: CustomIconWidget(
-                    iconName: 'favorite_border',
+                  icon: Icon(
+                    Icons.favorite_border,
                     color: AppTheme.contentWhite,
                     size: 24,
                   ),
@@ -71,8 +71,8 @@ class ContentDetailScreen extends StatelessWidget {
                     // Tratar favoritar
                   }),
               IconButton(
-                  icon: CustomIconWidget(
-                    iconName: 'share',
+                  icon: Icon(
+                    Icons.share,
                     color: AppTheme.contentWhite,
                     size: 24,
                   ),

@@ -46,8 +46,8 @@ class RatingSliderWidget extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    CustomIconWidget(
-                      iconName: 'star',
+                    Icon(
+                      Icons.star,
                       color: AppTheme.warningColor,
                       size: 4.w,
                     ),

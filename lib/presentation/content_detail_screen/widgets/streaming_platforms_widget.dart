@@ -77,8 +77,7 @@ class StreamingPlatformsWidget extends StatelessWidget {
                           children: [
                             Text(
                               platform['name'] ?? 'Plataforma',
-                              style: AppTheme.darkTheme.textTheme.bodyMedium
-                                  ?.copyWith(
+                              style: AppTheme.darkTheme.textTheme.bodyMedium?.copyWith(
                                 color: AppTheme.contentWhite,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -88,8 +87,7 @@ class StreamingPlatformsWidget extends StatelessWidget {
                             SizedBox(height: 0.5.h),
                             Text(
                               platform['type'] ?? 'Streaming',
-                              style: AppTheme.darkTheme.textTheme.bodySmall
-                                  ?.copyWith(
+                              style: AppTheme.darkTheme.textTheme.bodySmall?.copyWith(
                                 color: AppTheme.mutedText,
                               ),
                             ),
@@ -98,8 +96,8 @@ class StreamingPlatformsWidget extends StatelessWidget {
                       ),
 
                       // External link icon
-                      CustomIconWidget(
-                        iconName: 'open_in_new',
+                      Icon(
+                        Icons.open_in_new,
                         color: AppTheme.accentColor,
                         size: 18,
                       ),
