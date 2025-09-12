@@ -48,7 +48,6 @@ class FilterData {
 
   @override
   String toString() {
-    //só mostra dado se não for nulo
     var string = '';
     if (type != null) string += 'type: $type, ';
     if (genre != null) string += 'genre: $genre, ';
