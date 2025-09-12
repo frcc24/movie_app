@@ -147,7 +147,7 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
                           setState(() {
                             selectedRating = rating;
                           });
-                          // _updateResultsCount();
+                          
                         },
                       ),
                       _buildGenresSection(),

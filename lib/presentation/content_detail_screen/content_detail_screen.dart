@@ -68,7 +68,7 @@ class ContentDetailScreen extends StatelessWidget {
                     size: 24,
                   ),
                   onPressed: () {
-                    // Tratar favoritar
+                    
                   }),
               IconButton(
                   icon: Icon(
@@ -77,7 +77,7 @@ class ContentDetailScreen extends StatelessWidget {
                     size: 24,
                   ),
                   onPressed: () {
-                    // indicar que atividade está em construção
+                    
                   }),
               SizedBox(width: 2.w),
             ],
@@ -111,10 +111,10 @@ class ContentDetailScreen extends StatelessWidget {
                 ActionButtonsWidget(
                   isInWatchlist: false,
                   onWatchlistToggle: () {
-                    // Handle watchlist toggle
+                    
                   },
                   onShare: () {
-                    // Handle share
+                    
                   },
                 ),
                 SizedBox(height: 4.h),

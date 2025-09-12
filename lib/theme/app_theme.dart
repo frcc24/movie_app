@@ -1,37 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// A class that contains all theme configurations for the application.
 class AppTheme {
   AppTheme._();
 
-  // Cinematic Dark Foundation Color Palette
-  static const Color primaryDark =
-      Color(0xFF1A1A2E); // Deep cinematic background
-  static const Color secondaryDark =
-      Color(0xFF16213E); // Subtle card backgrounds
-  static const Color accentColor = Color(0xFFE94560); // Vibrant red for actions
-  static const Color surfaceDark =
-      Color(0xFF0F0F23); // Bottom navigation surfaces
-  static const Color contentWhite = Color(0xFFFFFFFF); // Pure white text
-  static const Color mutedText = Color(0xFF8892B0); // Secondary text
-  static const Color successColor = Color(0xFF64FFDA); // Genre tags
-  static const Color warningColor = Color(0xFFFFB74D); // Content ratings
-  static const Color borderColor = Color(0xFF2D3748); // Subtle separation
-  static const Color overlayColor = Color(0x66000000); // 40% opacity overlay
+  static const Color primaryDark = Color(0xFF1A1A2E);
+  static const Color secondaryDark = Color(0xFF16213E);
+  static const Color accentColor = Color(0xFFE94560);
+  static const Color surfaceDark = Color(0xFF0F0F23);
+  static const Color contentWhite = Color(0xFFFFFFFF);
+  static const Color mutedText = Color(0xFF8892B0);
+  static const Color successColor = Color(0xFF64FFDA);
+  static const Color warningColor = Color(0xFFFFB74D);
+  static const Color borderColor = Color(0xFF2D3748);
+  static const Color overlayColor = Color(0x66000000);
 
-  // Light theme colors (minimal usage for this entertainment app)
   static const Color primaryLight = Color(0xFFE94560);
   static const Color backgroundLight = Color(0xFFFFFFFF);
   static const Color surfaceLight = Color(0xFFF5F5F5);
   static const Color onPrimaryLight = Color(0xFFFFFFFF);
   static const Color onBackgroundLight = Color(0xFF1A1A2E);
 
-  // Shadow and elevation colors
   static const Color shadowDark = Color(0x1A000000);
   static const Color shadowLight = Color(0x0F000000);
 
-  /// Dark theme (primary theme for entertainment app)
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     colorScheme: ColorScheme(
@@ -64,8 +56,6 @@ class AppTheme {
     scaffoldBackgroundColor: primaryDark,
     cardColor: secondaryDark,
     dividerColor: borderColor,
-
-    // AppBar theme for cinematic experience
     appBarTheme: AppBarTheme(
       backgroundColor: primaryDark,
       foregroundColor: contentWhite,
@@ -85,8 +75,6 @@ class AppTheme {
         size: 24,
       ),
     ),
-
-    // Card theme with subtle elevation
     cardTheme: CardThemeData(
       color: secondaryDark,
       elevation: 2.0,
@@ -96,8 +84,6 @@ class AppTheme {
       ),
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     ),
-
-    // Bottom navigation for content discovery
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: surfaceDark,
       selectedItemColor: accentColor,
@@ -113,8 +99,6 @@ class AppTheme {
         fontWeight: FontWeight.w400,
       ),
     ),
-
-    // Floating action button for contextual actions
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       backgroundColor: accentColor,
       foregroundColor: contentWhite,
@@ -123,8 +107,6 @@ class AppTheme {
       hoverElevation: 6,
       highlightElevation: 8,
     ),
-
-    // Button themes for modern interaction
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         foregroundColor: contentWhite,
@@ -140,7 +122,6 @@ class AppTheme {
         ),
       ),
     ),
-
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: accentColor,
@@ -155,7 +136,6 @@ class AppTheme {
         ),
       ),
     ),
-
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         foregroundColor: accentColor,
@@ -169,11 +149,7 @@ class AppTheme {
         ),
       ),
     ),
-
-    // Typography system for entertainment content
     textTheme: _buildDarkTextTheme(),
-
-    // Input decoration for search and filters
     inputDecorationTheme: InputDecorationTheme(
       fillColor: surfaceDark,
       filled: true,
@@ -208,8 +184,6 @@ class AppTheme {
       prefixIconColor: mutedText,
       suffixIconColor: mutedText,
     ),
-
-    // Interactive elements
     switchTheme: SwitchThemeData(
       thumbColor: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.selected)) {
@@ -224,7 +198,6 @@ class AppTheme {
         return borderColor;
       }),
     ),
-
     checkboxTheme: CheckboxThemeData(
       fillColor: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.selected)) {
@@ -235,7 +208,6 @@ class AppTheme {
       checkColor: WidgetStateProperty.all(contentWhite),
       side: const BorderSide(color: borderColor, width: 2),
     ),
-
     radioTheme: RadioThemeData(
       fillColor: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.selected)) {
@@ -244,14 +216,11 @@ class AppTheme {
         return borderColor;
       }),
     ),
-
-    // Progress indicators for loading states
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       color: accentColor,
       linearTrackColor: borderColor,
       circularTrackColor: borderColor,
     ),
-
     sliderTheme: SliderThemeData(
       activeTrackColor: accentColor,
       thumbColor: accentColor,
@@ -259,8 +228,6 @@ class AppTheme {
       inactiveTrackColor: borderColor,
       valueIndicatorColor: accentColor,
     ),
-
-    // Tab bar for content categories
     tabBarTheme: TabBarThemeData(
       labelColor: accentColor,
       unselectedLabelColor: mutedText,
@@ -275,8 +242,6 @@ class AppTheme {
         fontWeight: FontWeight.w400,
       ),
     ),
-
-    // Tooltip theme
     tooltipTheme: TooltipThemeData(
       decoration: BoxDecoration(
         color: surfaceDark.withValues(alpha: 0.95),
@@ -294,8 +259,6 @@ class AppTheme {
         fontSize: 12,
       ),
     ),
-
-    // Snackbar for feedback
     snackBarTheme: SnackBarThemeData(
       backgroundColor: surfaceDark,
       contentTextStyle: GoogleFonts.inter(
@@ -309,8 +272,6 @@ class AppTheme {
       ),
       elevation: 6,
     ),
-
-    // Bottom sheet theme for filters
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: surfaceDark,
       modalBackgroundColor: surfaceDark,
@@ -321,8 +282,6 @@ class AppTheme {
         ),
       ),
     ),
-
-    // Chip theme for genre tags
     chipTheme: ChipThemeData(
       backgroundColor: successColor.withValues(alpha: 0.2),
       labelStyle: GoogleFonts.inter(
@@ -334,10 +293,10 @@ class AppTheme {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
-    ), dialogTheme: DialogThemeData(backgroundColor: surfaceDark),
+    ),
+    dialogTheme: DialogThemeData(backgroundColor: surfaceDark),
   );
 
-  /// Light theme (minimal implementation for system compatibility)
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     colorScheme: ColorScheme(
@@ -371,10 +330,8 @@ class AppTheme {
     textTheme: _buildLightTextTheme(),
   );
 
-  /// Dark text theme with entertainment-focused typography
   static TextTheme _buildDarkTextTheme() {
     return TextTheme(
-      // Display styles for hero content
       displayLarge: GoogleFonts.poppins(
         fontSize: 57,
         fontWeight: FontWeight.w600,
@@ -391,8 +348,6 @@ class AppTheme {
         fontWeight: FontWeight.w600,
         color: contentWhite,
       ),
-
-      // Headline styles for content titles
       headlineLarge: GoogleFonts.poppins(
         fontSize: 32,
         fontWeight: FontWeight.w600,
@@ -408,8 +363,6 @@ class AppTheme {
         fontWeight: FontWeight.w500,
         color: contentWhite,
       ),
-
-      // Title styles for cards and sections
       titleLarge: GoogleFonts.poppins(
         fontSize: 22,
         fontWeight: FontWeight.w500,
@@ -428,8 +381,6 @@ class AppTheme {
         color: contentWhite,
         letterSpacing: 0.1,
       ),
-
-      // Body text for descriptions and content
       bodyLarge: GoogleFonts.inter(
         fontSize: 16,
         fontWeight: FontWeight.w400,
@@ -448,8 +399,6 @@ class AppTheme {
         color: mutedText,
         letterSpacing: 0.4,
       ),
-
-      // Label styles for UI elements
       labelLarge: GoogleFonts.inter(
         fontSize: 14,
         fontWeight: FontWeight.w500,
@@ -471,7 +420,6 @@ class AppTheme {
     );
   }
 
-  /// Light text theme (minimal implementation)
   static TextTheme _buildLightTextTheme() {
     return TextTheme(
       headlineLarge: GoogleFonts.poppins(

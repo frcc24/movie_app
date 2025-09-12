@@ -1,5 +1,4 @@
 import '../enums/media_type.dart';
-// import 'streaming_platform.dart';
 
 class Medium {
   final int id;

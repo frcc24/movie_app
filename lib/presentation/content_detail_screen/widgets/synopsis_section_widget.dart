@@ -28,7 +28,7 @@ class _SynopsisSectionWidgetState extends State<SynopsisSectionWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Section title
+          
           Text(
             'Sinopse',
             style: AppTheme.darkTheme.textTheme.titleLarge?.copyWith(
@@ -39,7 +39,7 @@ class _SynopsisSectionWidgetState extends State<SynopsisSectionWidget> {
 
           SizedBox(height: 1.5.h),
 
-          // Synopsis text
+          
           AnimatedCrossFade(
             firstChild: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

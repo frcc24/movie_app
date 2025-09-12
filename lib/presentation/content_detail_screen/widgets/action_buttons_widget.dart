@@ -56,7 +56,7 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget> with TickerPr
       padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 3.h),
       child: Row(
         children: [
-          // Add to Watchlist button
+          
           Expanded(
             flex: 3,
             child: GestureDetector(
@@ -103,7 +103,7 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget> with TickerPr
 
           SizedBox(width: 3.w),
 
-          // Share button
+          
           GestureDetector(
             onTap: _handleShare,
             child: Container(
@@ -135,12 +135,12 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget> with TickerPr
       _isInWatchlist = !_isInWatchlist;
     });
 
-    // Trigger heart animation
+    
     _heartAnimationController.forward().then((_) {
       _heartAnimationController.reverse();
     });
 
-    // Show feedback
+    
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -158,7 +158,7 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget> with TickerPr
   }
 
   void _handleShare() {
-    // Show share options
+    
     showModalBottomSheet(
       context: context,
       backgroundColor: AppTheme.surfaceDark,
@@ -172,7 +172,7 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget> with TickerPr
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Handle bar
+            
             Container(
               width: 12.w,
               height: 0.5.h,
@@ -194,7 +194,7 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget> with TickerPr
 
             SizedBox(height: 3.h),
 
-            // Share options
+            
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

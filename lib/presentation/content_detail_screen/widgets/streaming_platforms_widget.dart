@@ -19,7 +19,7 @@ class StreamingPlatformsWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Section title
+          
           Text(
             'Disponível em',
             style: AppTheme.darkTheme.textTheme.titleLarge?.copyWith(
@@ -30,7 +30,7 @@ class StreamingPlatformsWidget extends StatelessWidget {
 
           SizedBox(height: 2.h),
 
-          // Platforms grid
+          
           Wrap(
             spacing: 3.w,
             runSpacing: 2.h,
@@ -49,7 +49,7 @@ class StreamingPlatformsWidget extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      // Platform logo
+                      
                       Container(
                         width: 10.w,
                         height: 5.h,
@@ -70,7 +70,7 @@ class StreamingPlatformsWidget extends StatelessWidget {
 
                       SizedBox(width: 3.w),
 
-                      // Platform info
+                      
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,7 +95,7 @@ class StreamingPlatformsWidget extends StatelessWidget {
                         ),
                       ),
 
-                      // External link icon
+                      
                       Icon(
                         Icons.open_in_new,
                         color: AppTheme.accentColor,
@@ -113,7 +113,7 @@ class StreamingPlatformsWidget extends StatelessWidget {
   }
 
   void _openPlatformApp(BuildContext context, Map<String, dynamic> platform) {
-    // Show snackbar with platform info
+    
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Abrindo ${platform['name'] ?? 'plataforma'}...'),

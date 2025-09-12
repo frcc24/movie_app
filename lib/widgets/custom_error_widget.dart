@@ -3,8 +3,6 @@ import 'package:flutter_svg/svg.dart';
 
 import '../core/app_export.dart';
 
-// custom_error_widget.dart
-
 class CustomErrorWidget extends StatelessWidget {
   final FlutterErrorDetails? errorDetails;
   final String? errorMessage;
@@ -48,7 +46,7 @@ class CustomErrorWidget extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
-                    color: Color(0xFF525252), // neutral-600
+                    color: Color(0xFF525252), 
                   ),
                 ),
               ),
@@ -62,14 +60,12 @@ class CustomErrorWidget extends StatelessWidget {
                     Navigator.pushNamed(context, AppRoutes.initial);
                   }
                 },
-                icon:
-                    const Icon(Icons.arrow_back, size: 18, color: Colors.white),
+                icon: const Icon(Icons.arrow_back, size: 18, color: Colors.white),
                 label: const Text('Back'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.lightTheme.primaryColor,
                   foregroundColor: Colors.white,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
