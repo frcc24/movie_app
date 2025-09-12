@@ -49,6 +49,7 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
     {'name': 'Cyberpunk', 'icon': Icons.computer},
     {'name': 'Sobrevivência', 'icon': Icons.terrain},
     {'name': 'Jovem Adulto', 'icon': Icons.school},
+    {'name': 'Musical', 'icon': Icons.library_music}
   ];
 
   @override
@@ -100,7 +101,7 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
     Navigator.pop<FilterData>(
         context,
         FilterData(
-          genre: selectedGenres,
+          genre: selectedGenres.isEmpty ? null : selectedGenres,
           type: mediaTypeFromPTBRString(selectedContentType),
           rating: selectedRating,
         ));
@@ -147,7 +148,6 @@ class _GenreFilterScreenState extends State<GenreFilterScreen> with TickerProvid
                           setState(() {
                             selectedRating = rating;
                           });
-                          
                         },
                       ),
                       _buildGenresSection(),

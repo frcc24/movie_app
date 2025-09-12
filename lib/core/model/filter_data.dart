@@ -45,4 +45,19 @@ class FilterData {
 
     return params;
   }
+
+  @override
+  String toString() {
+    //só mostra dado se não for nulo
+    var string = '';
+    if (type != null) string += 'type: $type, ';
+    if (genre != null) string += 'genre: $genre, ';
+    if (year != null) string += 'year: $year, ';
+    if (rating != null) string += 'rating >= $rating, ';
+    if (string.endsWith(', ')) {
+      string = string.substring(0, string.length - 2);
+    }
+
+    return string;
+  }
 }

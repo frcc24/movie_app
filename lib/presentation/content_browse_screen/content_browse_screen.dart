@@ -57,7 +57,8 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
     'Suspense',
     'Cyberpunk',
     'Sobrevivência',
-    'Jovem Adulto'
+    'Jovem Adulto',
+    'Musical',
   ];
 
   @override
@@ -335,7 +336,7 @@ class _ContentBrowseScreenState extends State<ContentBrowseScreen> with TickerPr
 
   Widget _buildEmptyState() {
     return EmptyStateWidget(
-      message: _selectedFilter == 'Todos' ? 'Não há conteúdo disponível no momento.' : 'Não encontramos conteúdo para o gênero "$_selectedFilter".',
+      message: _selectedFilter == 'Todos' ? 'Não há conteúdo disponível no momento.' : 'Não encontramos conteúdo para "${_selectedFilter.toString()}".',
       actionText: 'Limpar Filtro',
       onAction: _selectedFilter != 'Todos' ? () => _onGenreSelected('Todos') : null,
     );
