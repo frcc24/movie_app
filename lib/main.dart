@@ -29,7 +29,6 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeMode.dark,
-        
         builder: (context, child) {
           return MediaQuery(
             data: MediaQuery.of(context).copyWith(
@@ -38,7 +37,6 @@ class MyApp extends StatelessWidget {
             child: child!,
           );
         },
-        
         debugShowCheckedModeBanner: false,
         routes: AppRoutes.routes,
         onGenerateRoute: AppRoutes.onGenerateRoute,
