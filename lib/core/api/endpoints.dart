@@ -1,5 +1,5 @@
 abstract class Endpoints {
-  static const String _baseUrl = 'http://10.18.0.42:3000';
+  static const String _baseUrl = 'https://movie-api.bridge.ufsc.br';
 
   static String media() => '$_baseUrl/api/media';
 
